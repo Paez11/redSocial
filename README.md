@@ -1,2 +1,2 @@
 # redSocial
-2º proyecto de base de datos.
+2º proyecto de acceso a datos.
