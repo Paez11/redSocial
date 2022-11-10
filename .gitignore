@@ -1,3 +1,5 @@
+target
+
 # Compiled class file
 *.class
 
@@ -9,6 +11,14 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+#Intellij
+.idea
+
+#Eclipse
+.settings
+.classpath
+.proyect
 
 # Package Files #
 *.jar
