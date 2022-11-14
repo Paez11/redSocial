@@ -18,12 +18,11 @@ public class Connect {
 
 	/**
 	 * Devuelve la instancia del connect si encuentra y existe la base de datos
-	 * @param url archivo donde se encuentra los datos de la base de datos
 	 * @return devuelve la conexion de la base de datos o null si no esta
 	 */
-	public static Connection getConnect(String url) {
+	public static Connection getConnect() {
 		if (_newInstance == null) {
-			_newInstance = new Connect(url);
+			_newInstance = new Connect("conexion.xml");
 		}
 		if(con == null){
 			try {
