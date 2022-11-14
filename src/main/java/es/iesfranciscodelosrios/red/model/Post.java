@@ -1,7 +1,7 @@
 package es.iesfranciscodelosrios.red.model;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -9,8 +9,8 @@ import java.util.Set;
 public class Post {
     private User userName;
     private int id;
-    private LocalDateTime dateCreate;
-    private LocalDateTime dateUpdate;
+    private Date dateCreate;
+    private Date dateUpdate;
     private String text;
     private List<Comment> comments;
     private Set<User> likes;
@@ -23,6 +23,10 @@ public class Post {
         this.userName = userName;
     }
 
+    public void setUserNameID(Integer id) {
+        this.userName.setId(id);
+    }
+
     public int getId() {
         return id;
     }
@@ -31,19 +35,19 @@ public class Post {
         this.id = id;
     }
 
-    public LocalDateTime getDateCreate() {
+    public Date getDateCreate() {
         return dateCreate;
     }
 
-    public void setDateCreate(LocalDateTime dateCreate) {
+    public void setDateCreate(Date dateCreate) {
         this.dateCreate = dateCreate;
     }
 
-    public LocalDateTime getDateUpdate() {
+    public Date getDateUpdate() {
         return dateUpdate;
     }
 
-    public void setDateUpdate(LocalDateTime dateUpdate) {
+    public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
 
