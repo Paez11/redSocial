@@ -7,86 +7,154 @@ import es.iesfranciscodelosrios.red.utils.Connection.Connect;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-public class PostDao {
-    private Connection cn = Connect.getConnect("conexion.xml");
+public class PostDao extends Post{
 
-    public void savePost(Post post) {
-        String sql = "INSERT INTO post (id, id_user, fecha_creacion, fecha_modificacion, texto) VALUES (NULL, '" + post.getUserName().getId() + "', '" + post.getDateCreate() + "', '" + post.getDateUpdate() + "', '" + post.getText() +"');";
-        try {
-            cn.createStatement().execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private final static String INSERT = "INSERT INTO post (id,id_user,fecha_creacion,fecha_modificacion,texto) VALUES (?,?,?,?,?)";
+    private final static String UPDATE = "UPDATE post SET fecha_modificacion=?,texto=? WHERE id=?";
+    private final static String DELETE = "DELETE FROM post WHERE id=?";
+    private final static String SELECTBYID = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id=?";
+    private final static String SELECTALL = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post";
+    private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=?";
+
+    public PostDao(User u, String texto){
+        super(u,texto);
+    }
+    public PostDao(User u, Date FCreacion, Date FModificacion,String texto){
+        super(u,FCreacion,FModificacion,texto);
+    }
+    public PostDao(){
+        super();
+    }
+    public PostDao(int id){
+        this.getPostById(id);
     }
 
-    public Collection<Post> getAllPost() {
-        ArrayList<Post> posts = new ArrayList<>();
 
-        String sql = "SELECT * FROM post";
-
-
-        try {
-            PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rq= ps.executeQuery();
-            while(rq.next()){
-                Post aux= new Post();
-                aux.setId(rq.getInt(1));
-                aux.setUserNameID(rq.getInt(2));
-                aux.setUserName(UserDao.getUserById(rq.getInt(2)));
-                aux.setDateCreate(rq.getDate(3));
-                aux.setDateUpdate(rq.getDate(4));
-                aux.setText(rq.getString(5));
-                aux.setComments(CommentDao.getCommentsByPostId(rq.getInt(1)));
-                aux.setLikes(LikeDao.getLikesByPostId(rq.getInt(1)));
-                posts.add(aux);
+    public void savePost() {
+        if(this.getId()==-1) {
+            //INSERT
+            Connection cn = Connect.getConnect("conexion.xml");
+            if(cn != null) {
+                PreparedStatement ps;
+                try {
+                    ps = cn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
+                    ps.setInt(1, this.getId());
+                    ps.setInt(2, this.getUserName().getId());
+                    ps.setDate(3, this.getDateCreate());
+                    ps.setDate(4, this.getDateUpdate());
+                    ps.setString(5, this.getText());
+                    ps.executeUpdate();  //devuelve 1 si ha salido bien
+                    ResultSet rs = ps.getGeneratedKeys();
+                    if(rs.next()) {
+                        this.setId(rs.getInt(1));
+                    }
+                    ps.close();
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return posts;
     }
 
-    public Post getPostById(int id) {
-        Post post = new Post();
-
-        String sql = "SELECT * FROM post WHERE id = " + id;
-        try {
-            PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rq= ps.executeQuery();
-            while(rq.next()){
-                Post aux= new Post();
-                aux.setId(rq.getInt(1));
-                aux.setUserNameID(rq.getInt(2));
-                aux.setUserName(UserDao.getUserById(rq.getInt(2)));
-                aux.setDateCreate(rq.getDate(3));
-                aux.setDateUpdate(rq.getDate(4));
-                aux.setText(rq.getString(5));
-                aux.setComments(CommentDao.getCommentsByPostId(rq.getInt(1)));
-                aux.setLikes(LikeDao.getLikesByPostId(rq.getInt(1)));
-                posts.add(aux);
+    public static List<Post> getAll(){
+        List<Post> result = new ArrayList<Post>();
+        Connection cn = Connect.getConnect("conexion.xml");
+        if(cn != null) {
+            PreparedStatement ps;
+            try {
+                ps = cn.prepareStatement(SELECTALL);
+                if(ps.execute()) {
+                    ResultSet rs = ps.getResultSet();
+                    while(rs.next()) {
+                        Post p = new Post(rs.getInt("id"),
+                                rs.getInt("id_user"),
+                                rs.getDate("fecha_creacion"),
+                                rs.getDate("fecha_modificacion"),
+                                rs.getString("texto"))
+                        p.setLikes(LikeDao.getLikesByPostId(rs.getInt(1)));
+                        p.setComments(CommentDao.getCommentsByPostId(rs.getInt(1)));
+                        result.add(p);
+                    }
+                    rs.close();
+                }
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
-        return post;
+        return result;
     }
 
-    public boolean updatePostById(Integer id){
-        boolean IsUpdated = false;
-        Post post = getPostById(id);
-        String sql = "UPDATE post SET fecha_modificacion = "+ post.getDateUpdate() + "','"+ "texto = "+post.getText() +" WHERE id = " + post.getId();
-        return IsUpdated;
-    }
+    private void getById(int id) {
+        Connection cn = Connect.getConnect("conexion.xml");
+        if(cn != null) {
+            PreparedStatement ps;
+            try {
+                ps = cn.prepareStatement(SELECTBYID);
+                ps.setInt(1, id);
+                if(ps.execute()) {
+                    ResultSet rs = ps.getResultSet();
+                    if(rs.next()) {
+                        this.setId(rs.getInt("id"));
+                        this.setUserNameID(rs.getInt("id_user"));
+                        this.setDateCreate(rs.getDate("fecha_creacion"));
+                        this.setDateUpdate(rs.getDate("fecha_modificacion"));
+                        this.setText(rs.getString("texto"));
+                        this.setLikes(LikeDao.getLikesByPostId(rs.getInt(1)));
+                        this.setComments(CommentDao.getCommentsByPostId(rs.getInt(1)));
+                    }
+                }
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-    public void deletePost(Integer id) {
-        String sql = "DELETE FROM post WHERE id = " + id + ";";
-        try {
-            cn.createStatement().executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
+
+    public void update() {
+        if(this.getId()!=-1) {
+            //UPDATE
+            Connection cn = Connect.getConnect("conexion.xml");
+            if(cn != null) {
+                PreparedStatement ps;
+                try {
+                    ps = cn.prepareStatement(UPDATE);
+                    ps.setDate(1, this.getDateUpdate());
+                    ps.setString(2, this.getText());
+                    ps.setInt(3, this.getId());
+                    ps.executeUpdate();  //devuelve 1 si funciona
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    public void remove() {
+        if(this.getId()!=-1) {
+            //UPDATE
+            Connection cn = Connect.getConnect("conexion.xml");
+            if(cn != null) {
+                PreparedStatement ps;
+                try {
+                    ps = cn.prepareStatement(DELETE);
+                    ps.setInt(1, this.getId());
+                    if(ps.executeUpdate()==1) {
+                        this.setId(-1);
+                    }
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 }
