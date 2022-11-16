@@ -12,7 +12,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage){
-        loadScene(new Stage(),"","RedSocial",false,false);
+        loadScene(new Stage(),"LogIn","RedSocial",false,false);
     }
 
     /**

@@ -34,6 +34,16 @@ public class Valid {
         return result;
     }
 
+    public static boolean passwordMatched(PasswordField p1){
+        boolean result=false;
+        String pat="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
+
+        if(p1.getText().matches(pat)){
+            result=true;
+        }
+        return result;
+    }
+
     private static boolean Email(TextField e){
         boolean result=false;
 
