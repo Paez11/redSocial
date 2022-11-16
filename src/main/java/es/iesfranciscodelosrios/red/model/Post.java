@@ -7,13 +7,47 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Post {
-    private User userName;
-    private int id;
-    private Date dateCreate;
-    private Date dateUpdate;
-    private String text;
-    private List<Comment> comments;
-    private Set<User> likes;
+    protected User userName;
+    protected int id;
+    protected Date dateCreate;
+    protected Date dateUpdate;
+    protected String text;
+    protected List<Comment> comments;
+    protected Set<User> likes;
+
+    public Post() {
+    }
+
+    public Post(int id) {
+        this.id = id;
+    }
+
+    public Post(User userName, int id) {
+        this.userName = userName;
+        this.id = id;
+    }
+
+    public Post(User userName) {
+        this.userName = userName;
+    }
+
+    public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text) {
+        this.userName = userName;
+        this.id = id;
+        this.dateCreate = dateCreate;
+        this.dateUpdate = dateUpdate;
+        this.text = text;
+    }
+
+    public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text, List<Comment> comments, Set<User> likes) {
+        this.userName = userName;
+        this.id = id;
+        this.dateCreate = dateCreate;
+        this.dateUpdate = dateUpdate;
+        this.text = text;
+        this.comments = comments;
+        this.likes = likes;
+    }
 
     public User getUserName() {
         return userName;

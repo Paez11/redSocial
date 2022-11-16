@@ -1,18 +1,31 @@
 package es.iesfranciscodelosrios.red.controllers;
 
+import es.iesfranciscodelosrios.red.App;
 import es.iesfranciscodelosrios.red.DAO.UserDao;
 import es.iesfranciscodelosrios.red.model.User;
 import es.iesfranciscodelosrios.red.utils.Valid;
+import es.iesfranciscodelosrios.red.utils.Windows;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import static es.iesfranciscodelosrios.red.App.loadScene;
 
-public class SignUpC {
+public class SignUpC implements Initializable {
+
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private TextField Username;
     @FXML
@@ -21,26 +34,40 @@ public class SignUpC {
     private PasswordField Password2;
     @FXML
     private Button SignUp;
-    private UserDao userDao=new UserDao();
+    @FXML
+    private Button LogIn;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(() -> {
+            Windows.closeRequest((Stage) anchorPane.getScene().getWindow());
+        });
+    }
 
     @FXML
-    public void LogIn(){
-        if (Valid.passwordMatched(Password)) {
-            if (Password.getText().equals(Password2.getText())) {
-                User user = new User();
-                user.setPassword(Valid.sha256(Password.getText()));
-                user.setName(Username.getText());
-                user.setAvatar("");
-                userDao.save(user);
-                loadScene(new Stage(), "Home", "Home", false, false);
-            } else {
-                //no ha introducido una contraseña o nickname correcto
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Datos erroneos");
-                alert.setContentText("No ha introducido una contraseña o nickname correctos");
+    public void SignUp(){
+        String username = Username.getText();
+        String password = Password.getText();
+        String password2 = Password2.getText();
 
+        if (username.isEmpty() || password.isEmpty() || password2.isEmpty()){
+            Windows.mostrarAlerta("Error","Error","Rellene todos los campos");
+        }else{
+            if (password.equals(password2)){
+                password = Valid.sha256(String.valueOf(Password));
+                UserDao user = new UserDao(username,password);
+                user.save();
+                App.loadScene(new Stage(), "LogIn", "LogIn", false, false);
+            }else{
+                Windows.mostrarAlerta("Error","Error","Las contraseñas no coinciden");
             }
         }
     }
+
+    @FXML
+    private void switchToLogIn(ActionEvent event) throws IOException {
+        App.loadScene(new Stage(),"LogIn","LogIn",false,false);
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
+    }
+
 }

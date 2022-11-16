@@ -33,6 +33,9 @@ public class UserDao extends User implements Dao {
     public UserDao(int id, String name,String password,String avatar){
         super(id,name,password,avatar);
     }
+    public UserDao(String name,String password){
+        super(name,password);
+    }
     public UserDao(){
         super();
     }
@@ -107,7 +110,7 @@ public class UserDao extends User implements Dao {
         }
     }
 
-    private User getById(int id){
+    protected User getById(int id){
         UserDao user = new UserDao(id,name,password,avatar);
         if (id==-1){
             con = Connect.getConnect();
