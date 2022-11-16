@@ -7,13 +7,24 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Post {
-    private User userName;
-    private int id;
-    private LocalDateTime dateCreate;
+	protected User userName;
+    protected int id;
+    protected LocalDateTime dateCreate;
     private LocalDateTime dateUpdate;
-    private String text;
+    protected String text;
     private List<Comment> comments;
     private Set<User> likes;
+    
+    public Post(User userName,String text) {
+        this.userName=userName;
+        this.text=text;
+        this.dateCreate=LocalDateTime.now();
+        }
+    public Post(User userName,String text,LocalDateTime dateCreate) {
+        this.userName=userName;
+        this.text=text;
+        this.dateCreate=dateCreate;
+        }
 
     public User getUserName() {
         return userName;

@@ -13,6 +13,11 @@ public class User {
     private List<Post> likes;
     private List<User> followed;
     private List<User> follower;
+    
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;
