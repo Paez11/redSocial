@@ -4,15 +4,78 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private int id;
-    private String name;
-    private String password;
-    private String avatar;
-    private List<Post> posts;
-    private List<Comment> comments;
-    private List<Post> likes;
-    private List<User> followed;
-    private List<User> follower;
+    protected int id;
+    protected String name;
+    protected String password;
+    protected String avatar;
+    protected List<Post> posts;
+    protected List<Comment> comments;
+    protected List<Post> likes;
+    protected List<User> followed;
+    protected List<User> follower;
+
+    public User() {
+    }
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(int id, String name, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+    }
+
+    public User(int id, String name, List<Post> posts) {
+        this.id = id;
+        this.name = name;
+        this.posts = posts;
+    }
+
+    public User(int id, String name, String avatar, List<Post> posts, List<Post> likes) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+        this.posts = posts;
+        this.likes = likes;
+    }
+
+    public User(int id, String name, String avatar, List<Comment> comments) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+        this.comments = comments;
+    }
+
+    public User(int id, String name, String password, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.avatar = avatar;
+    }
+
+    public User(String name, String avatar, List<User> followed, List<User> follower) {
+        this.name = name;
+        this.avatar = avatar;
+        this.followed = followed;
+        this.follower = follower;
+    }
+
+    public User(int id, String name, String password, String avatar,
+                List<Post> posts, List<Comment> comments, List<Post> likes,
+                List<User> followed, List<User> follower) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.avatar = avatar;
+        this.posts = posts;
+        this.comments = comments;
+        this.likes = likes;
+        this.followed = followed;
+        this.follower = follower;
+    }
 
     public int getId() {
         return id;
