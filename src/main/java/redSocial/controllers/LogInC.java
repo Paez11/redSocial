@@ -48,7 +48,7 @@ public class LogInC implements Initializable {
 
         if (nickname.isEmpty() || password.isEmpty()){
             Windows.mostrarAlerta("Error","Error","Rellene todos los campos");
-        }else{
+        }else if (Valid.passwordMatched(Password)){
             password = Valid.sha256(String.valueOf(Password));
             UserDao user = new UserDao(nickname,password);
             user.getName();
@@ -60,6 +60,8 @@ public class LogInC implements Initializable {
                 Nickname.setText("");
                 Password.setText("");
             }
+        }else{
+            Windows.mostrarAlerta("Error","Error", "Introduzca una contraseña fuerte");
         }
     }
 

@@ -48,7 +48,7 @@ public class SignUpC implements Initializable {
 
         if (username.isEmpty() || password.isEmpty() || password2.isEmpty()){
             Windows.mostrarAlerta("Error","Error","Rellene todos los campos");
-        }else{
+        }else if (Valid.passwordMatched(Password)& Valid.passwordMatched(Password2)){
             if (password.equals(password2)){
                 password = Valid.sha256(String.valueOf(Password));
                 UserDao user = new UserDao(username,password);
@@ -57,6 +57,8 @@ public class SignUpC implements Initializable {
             }else{
                 Windows.mostrarAlerta("Error","Error","Las contraseñas no coinciden");
             }
+        }else{
+            Windows.mostrarAlerta("Error","Error", "Introduzca una contraseña fuerte");
         }
     }
 
