@@ -10,6 +10,6 @@ module es.iesfranciscodelosrios.red {
     requires java.xml.bind;
     requires java.sql;
 
-    opens es.iesfranciscodelosrios.red to javafx.fxml;
-    exports es.iesfranciscodelosrios.red;
+    opens redSocial to javafx.fxml;
+    exports redSocial;
 }
