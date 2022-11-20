@@ -1,4 +1,4 @@
-module es.iesfranciscodelosrios.red {
+module es.iesfranciscodelosrios.redSocial {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -10,7 +10,7 @@ module es.iesfranciscodelosrios.red {
     requires java.xml.bind;
     requires java.sql;
 
-    opens redSocial.utils.Connection to java.xml.bind;
     opens redSocial.controllers to javafx.fxml;
+    opens redSocial.utils.Connection to java.xml.bind;
     exports redSocial.controllers;
 }

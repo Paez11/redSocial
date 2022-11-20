@@ -79,7 +79,7 @@ public class DataConexion implements Serializable {
 			this.username = aux.username;
 			this.password = aux.password;
 		} catch (JAXBException e) {
-			Log.severe("no se han podido cargar los datos del archivo xml");
+			Log.severe("No se ha podido cargar el archivo de conexion "+e.getMessage());
 		}
 	}
 

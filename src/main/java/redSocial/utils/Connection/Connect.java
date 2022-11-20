@@ -26,7 +26,8 @@ public class Connect {
 		}
 		if(con == null){
 			try {
-				con = DriverManager.getConnection(dc.getServer() + "/" + dc.getDatabase(), dc.getUsername(), dc.getPassword());
+				//Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection(dc.getServer()+"/"+dc.getDatabase(), dc.getUsername(), dc.getPassword());
 				Log.info("Base de datos cargada");
 			} catch (SQLException e) {
 				Log.severe("No se ha podido conectar a la base de datos");

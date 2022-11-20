@@ -1,6 +1,6 @@
 package redSocial.controllers;
 
-import redSocial.DAO.UserDao;
+import javafx.scene.input.KeyCode;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 import javafx.application.Platform;
@@ -48,9 +48,10 @@ public class LogInC implements Initializable {
         if (nickname.isEmpty() || password.isEmpty()){
             Windows.mostrarAlerta("Error","Error","Rellene todos los campos");
         }else{
-            password = Valid.sha256(String.valueOf(Password));
+            password = Valid.sha256(password);
             Data.principalUser.getByName(nickname);
-            if (Data.principalUser!=null){
+            Data.principalUser.setName(nickname);           //No se por que?, pero getByName no setea el nombre del usuario
+            if (Data.principalUser.getName()!=null && Data.principalUser.getPassword().equals(password)){
                 App.loadScene(new Stage(), "Home", "RedSocial", false, false);
                 App.closeScene((Stage) anchorPane.getScene().getWindow());
             }else{
@@ -65,6 +66,21 @@ public class LogInC implements Initializable {
     private void switchToRegister(ActionEvent event) throws IOException {
         App.loadScene(new Stage(),"SignUp","RedSocial",false,false);
         App.closeScene((Stage) anchorPane.getScene().getWindow());
+    }
+
+    public void enter(){
+        Password.setOnKeyPressed( event -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                LogIn();
+            }
+        });
+    }
+    public void switchDown(){
+        Nickname.setOnKeyPressed( event -> {
+            if(event.getCode() == KeyCode.DOWN) {
+                Password.requestFocus();
+            }
+        });
     }
 
 }

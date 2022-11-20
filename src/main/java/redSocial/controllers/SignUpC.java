@@ -49,7 +49,7 @@ public class SignUpC implements Initializable {
             Windows.mostrarAlerta("Error","Error","Rellene todos los campos");
         }else{
             if (password.equals(password2)){
-                password = Valid.sha256(String.valueOf(Password));
+                password = Valid.sha256(password);
                 UserDao user = new UserDao(username,password);
                 Data.principalUser = user;
                 Data.principalUser.save();
