@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="es.iesfranciscodelosrios.red.Homeç"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.HomeC">
+   <children>
+      <ImageView fitHeight="91.0" fitWidth="113.0" layoutX="32.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+      <Button contentDisplay="TOP" layoutX="32.0" layoutY="170.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="66.0" style="-fx-background-color: none;" text="Home">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button contentDisplay="TOP" layoutX="31.0" layoutY="271.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="66.0" style="-fx-background-color: none;" text="Search">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/buscar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button contentDisplay="TOP" layoutX="32.0" layoutY="381.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="66.0" style="-fx-background-color: none;" text="New">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/new.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button contentDisplay="TOP" layoutX="18.0" layoutY="504.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="93.0" style="-fx-background-color: none;" text="Configuration">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/gear.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button contentDisplay="TOP" layoutX="19.0" layoutY="632.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="93.0" style="-fx-background-color: none;" text="Profile">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/user.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView layoutX="418.0" layoutY="146.0" prefHeight="566.0" prefWidth="168.0" style="-fx-background-color: transparent;">
+        <columns>
+          <TableColumn prefWidth="199.20001220703125" resizable="false" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>

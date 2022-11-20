@@ -9,6 +9,7 @@ module es.iesfranciscodelosrios.red {
     requires java.logging;
     requires java.xml.bind;
     requires java.sql;
+	requires javafx.graphics;
 
     opens redSocial to javafx.fxml;
     exports redSocial;
