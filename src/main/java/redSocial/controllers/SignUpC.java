@@ -2,6 +2,8 @@ package redSocial.controllers;
 
 import redSocial.App;
 import redSocial.DAO.UserDao;
+import redSocial.model.User;
+import redSocial.utils.DataService;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 import javafx.application.Platform;
@@ -52,7 +54,9 @@ public class SignUpC implements Initializable {
             if (password.equals(password2)){
                 password = Valid.sha256(String.valueOf(Password));
                 UserDao user = new UserDao(username,password);
+                User nUser = new User(username,password);
                 user.save();
+                DataService.user=nUser;
                 App.loadScene(new Stage(), "LogIn", "LogIn", false, false);
             }else{
                 Windows.mostrarAlerta("Error","Error","Las contraseñas no coinciden");

@@ -2,6 +2,8 @@ package redSocial.controllers;
 
 import redSocial.App;
 import redSocial.DAO.UserDao;
+import redSocial.model.User;
+import redSocial.utils.DataService;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 import javafx.application.Platform;
@@ -51,8 +53,10 @@ public class LogInC implements Initializable {
         }else if (Valid.passwordMatched(Password)){
             password = Valid.sha256(String.valueOf(Password));
             UserDao user = new UserDao(nickname,password);
+            User nUser = new User(nickname,password);
             user.getName();
-            if (user!=null){
+            if (user!=null & nUser!=null){
+                DataService.user=nUser;
                 App.loadScene(new Stage(), "Home", "Home", false, false);
                 App.closeScene((Stage) anchorPane.getScene().getWindow());
             }else{

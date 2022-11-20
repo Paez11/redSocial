@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class PostDao extends Post implements Dao {
 
-    private final static String INSERT = "INSERT INTO post (id,id_user,fecha_creacion,fecha_modificacion,texto) VALUES (?,?,?,?,?)";
+    private final static String INSERT = "INSERT INTO post (id,id_user,fecha_creacion,fecha_modificacion,texto) VALUES (NULL,?,?,?,?)";
     private final static String UPDATE = "UPDATE post SET fecha_modificacion=?,texto=? WHERE id=?";
     private final static String DELETE = "DELETE FROM post WHERE id=?";
     private final static String SELECTBYID = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id=?";
@@ -25,6 +25,9 @@ public class PostDao extends Post implements Dao {
     }
     public PostDao(User u,int id, Date fCreacion, Date fModificacion,String texto){
         super(u,id,fCreacion,fModificacion,texto);
+    }
+    public PostDao(User u, Date fCreacion, Date fModificacion,String texto){
+        super(u,fCreacion,fModificacion,texto);
     }
     public PostDao(User u, int id, Date fCreacion, Date fModificacion, String texto, List<Comment> comentarios, Set<User> likes){
         super(u,id,fCreacion,fModificacion,texto,comentarios,likes);
@@ -46,11 +49,10 @@ public class PostDao extends Post implements Dao {
                 PreparedStatement ps;
                 try {
                     ps = cn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
-                    ps.setInt(1, this.getId());
-                    ps.setInt(2, this.getUserName().getId());
-                    ps.setDate(3, this.getDateCreate());
-                    ps.setDate(4, this.getDateUpdate());
-                    ps.setString(5, this.getText());
+                    ps.setInt(1, this.getUserName().getId());
+                    ps.setDate(2, this.getDateCreate());
+                    ps.setDate(3, this.getDateUpdate());
+                    ps.setString(4, this.getText());
                     ps.executeUpdate();  //devuelve 1 si ha salido bien
                     ResultSet rs = ps.getGeneratedKeys();
                     if(rs.next()) {

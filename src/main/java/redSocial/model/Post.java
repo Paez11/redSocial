@@ -38,6 +38,13 @@ public class Post {
         this.text = text;
     }
 
+    public Post(User userName, Date dateCreate, Date dateUpdate, String text) {
+        this.userName = userName;
+        this.dateCreate = dateCreate;
+        this.dateUpdate = dateUpdate;
+        this.text = text;
+    }
+
     public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text, List<Comment> comments, Set<User> likes) {
         this.userName = userName;
         this.id = id;
