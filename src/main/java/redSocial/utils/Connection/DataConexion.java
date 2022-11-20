@@ -14,7 +14,8 @@ import java.io.Serializable;
 @XmlRootElement(name = "conexion")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataConexion implements Serializable {
-	
+	private static final long serialVersionUID = 1L;
+
 	private String server;
 	private String database;
 	private String username;

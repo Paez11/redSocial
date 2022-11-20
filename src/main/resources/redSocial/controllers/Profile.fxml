@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
    <left>
       <VBox prefHeight="600.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,13 +24,13 @@
                   <Insets left="40.0" top="20.0" />
                </VBox.margin>
             </ImageView>
-            <VBox prefHeight="488.0" prefWidth="150.0">
+            <VBox prefHeight="568.0" prefWidth="150.0">
                <children>
-                  <Button contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" prefHeight="71.0" prefWidth="103.0" text="home" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="homeBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="home" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/home.png" />
+                              <Image url="@../../icons/home.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -44,11 +44,11 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" prefHeight="71.0" prefWidth="103.0" text="search" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="searchBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="search" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/buscar.png" />
+                              <Image url="@../../icons/buscar.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -59,14 +59,14 @@
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" prefHeight="71.0" prefWidth="103.0" text="new" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="newBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="new" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/new.png" />
+                              <Image url="@../../icons/new.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -77,14 +77,14 @@
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" prefHeight="71.0" prefWidth="103.0" text="configuration" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="configBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="configuration" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/gear.png" />
+                              <Image url="@../../icons/gear.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -95,14 +95,14 @@
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" prefHeight="71.0" prefWidth="103.0" text="profile" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="profileBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="profile" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/user.png" />
+                              <Image url="@../../icons/user.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -113,7 +113,25 @@
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="logoutBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" text="Log out" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                     <graphic>
+                        <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/exit.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
@@ -122,10 +140,10 @@
       </VBox>
    </left>
    <right>
-      <TableView prefHeight="600.0" prefWidth="151.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn maxWidth="150.0" minWidth="20.0" prefWidth="150.0" text="siguiendo" />
-        </columns>
+      <TableView fx:id="followedTable" prefHeight="600.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="followedColumn" maxWidth="150.0" minWidth="20.0" prefWidth="150.0" text="siguiendo" />
+         </columns>
       </TableView>
    </right>
    <center>
@@ -135,9 +153,9 @@
                <children>
                   <HBox prefHeight="76.0" prefWidth="499.0">
                      <children>
-                        <ImageView fitHeight="70.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="profileImage" fitHeight="70.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/user.png" />
+                              <Image url="@../../icons/user.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -146,7 +164,7 @@
                               <Insets bottom="2.0" left="5.0" top="2.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="62.0" text="editar">
+                        <Button fx:id="photoEditBtn" mnemonicParsing="false" onAction="#editPhoto" prefHeight="32.0" prefWidth="62.0" text="editar">
                            <HBox.margin>
                               <Insets left="263.0" top="25.0" />
                            </HBox.margin>
@@ -163,12 +181,12 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="31.0" prefWidth="237.0">
+                        <TextField fx:id="nickname" prefHeight="31.0" prefWidth="237.0">
                            <HBox.margin>
                               <Insets top="4.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="62.0" text="editar">
+                        <Button fx:id="nickNameEditBtn" alignment="CENTER" mnemonicParsing="false" onAction="#editNickName" prefHeight="32.0" prefWidth="62.0" text="editar">
                            <HBox.margin>
                               <Insets left="20.0" top="2.0" />
                            </HBox.margin>
@@ -185,12 +203,12 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <PasswordField prefHeight="31.0" prefWidth="237.0">
+                        <PasswordField fx:id="password" prefHeight="31.0" prefWidth="237.0">
                            <HBox.margin>
                               <Insets top="4.0" />
                            </HBox.margin>
                         </PasswordField>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="62.0" text="editar">
+                        <Button fx:id="passwordEditBtn" alignment="CENTER" mnemonicParsing="false" onAction="#editPassword" prefHeight="32.0" prefWidth="62.0" text="editar">
                            <HBox.margin>
                               <Insets left="20.0" top="2.0" />
                            </HBox.margin>

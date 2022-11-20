@@ -7,13 +7,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connect {
-	
+	private String file = "conexion.xml";
 	private static Connection con;
 	private static Connect _newInstance;
 	private static DataConexion dc;
 
-	private Connect(String url) {
-		dc = new DataConexion("conexion.xml");
+	private Connect() {
+		dc = new DataConexion(file);
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class Connect {
 	 */
 	public static Connection getConnect() {
 		if (_newInstance == null) {
-			_newInstance = new Connect("conexion.xml");
+			_newInstance = new Connect();
 		}
 		if(con == null){
 			try {

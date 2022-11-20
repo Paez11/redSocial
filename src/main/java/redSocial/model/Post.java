@@ -56,10 +56,6 @@ public class Post {
         this.userName = userName;
     }
 
-    public void setUserNameID(Integer id) {
-        this.userName.setId(id);
-    }
-
     public int getId() {
         return id;
     }
