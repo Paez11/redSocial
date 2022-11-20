@@ -1,4 +1,43 @@
 package redSocial.controllers;
 
-public class CreatePostC {
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class CreatePostC implements Initializable {
+
+    @FXML
+    private Button submitBtn;
+
+    @FXML
+    private Button cancelBtn;
+
+    @FXML
+    private TextArea content;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void submit(ActionEvent actionEvent) {
+        Data.p.save();
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
+    }
+
+    public void cancel(ActionEvent actionEvent) {
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
+    }
+
+
 }

@@ -11,11 +11,11 @@ import java.util.List;
 public class UserDao extends User implements Dao {
     private static Connection con = null;
 
-    private final static String INSERT = "INSERT INTO user(id,nickname,password,avatar) VALUES (NULL,?,?,NULL)";
+    private final static String INSERT = "INSERT INTO user(id,name,password,avatar) VALUES (NULL,?,?,NULL)";
     private final static String DELETE = "DELETE FROM user WHERE id=?";
-    private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? WHERE id=? FROM user";
-    private final static String SELECTBYID = "SELECT id,name,password,avatar WHERE id=? FROM user";
-    private final static String SELECTBYNAME = "SELECT id,name,password,avatar WHERE name=? FROM user";
+    private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? FROM user WHERE id=?";
+    private final static String SELECTBYID = "SELECT id,name,password,avatar FROM user WHERE id=?";
+    private final static String SELECTBYNAME = "SELECT id,name,password,avatar FROM user WHERE name=?";
     private final static String SELECTALL = "SELECT id,name,avatar FROM user";
     private final static String FOLLOW = "INSERT INTO follower VALUES (?,?)";
     private final static String UNFOLLOW = "DELETE FROM follower WHERE id_follower=? AND id_follow=?";
@@ -57,7 +57,6 @@ public class UserDao extends User implements Dao {
                 st.setString(2,this.password);
                 st.executeUpdate();
                 st.close();
-                System.out.println("Usuario insertado correctamente");
             } catch (SQLException e) {
                 Log.severe("Error al insertar usuario: " + e.getMessage());
             }
@@ -134,11 +133,11 @@ public class UserDao extends User implements Dao {
             PreparedStatement st = null;
             try {
                 st = con.prepareStatement(SELECTBYNAME);
-                st.setString(2,name);
+                st.setString(1,name);
                 if (st.execute()){
                     ResultSet rs = st.getResultSet();
                     if (rs.next()){
-                        name=rs.getString(2);
+                        name=rs.getString(1);
                         this.id = rs.getInt("id");
                         this.password = rs.getString("password");
                         this.avatar = rs.getString("avatar");
