@@ -119,13 +119,13 @@ public class ProfileC implements Initializable {
     public void switchPane(ActionEvent event){
         Object source = event.getSource();
         if (homeBtn.equals(source)) {
-            go("Home");
+            go("Home",true);
         } else if (profileBtn.equals(source)) {
-            go("Profile");
+            go("Profile",true);
         } else if (newBtn.equals(source)) {
-            go("Post");
+            go("CreatePost",false);
         } else if (logoutBtn.equals(source)) {
-            go("LogIn");
+            go("LogIn",true);
         } else if (searchBtn.equals(source)) {
             Windows.mostrarAlerta("Error", "SearchBar", "No implementado");
         } else if (configBtn.equals(source)) {
@@ -133,9 +133,13 @@ public class ProfileC implements Initializable {
         }
     }
 
-    public void go(String fxml){
-        App.loadScene(new Stage(), fxml, "redSocial", false, false);
-        App.closeScene((Stage) borderPane.getScene().getWindow());
+    public void go(String fxml,boolean windowed){
+        if (windowed) {
+            App.loadScene(new Stage(), fxml, "RedSocial", false, false);
+            App.closeScene((Stage) borderPane.getScene().getWindow());
+        }else{
+            App.loadScene(new Stage(), fxml, "redSocial", true, false);
+        }
     }
 
 

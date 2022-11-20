@@ -8,6 +8,7 @@ import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class PostDao extends Post implements Dao {
             try {
                 ps = cn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, this.getUserName().getId());
-                ps.setDate(2, this.getDateCreate());
+                ps.setDate(2, Date.valueOf(LocalDate.now()));
                 ps.setString(3, this.getText());
                 ps.executeUpdate();  //devuelve 1 si ha salido bien
                 ResultSet rs = ps.getGeneratedKeys();
