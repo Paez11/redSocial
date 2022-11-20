@@ -31,6 +31,8 @@ public class CreatePostC implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) {
+        Data.p.setUserName(Data.principalUser);
+        Data.p.setText(content.getText());
         Data.p.save();
         App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
