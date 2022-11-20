@@ -1,4 +1,4 @@
-package redSocial;
+package redSocial.controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

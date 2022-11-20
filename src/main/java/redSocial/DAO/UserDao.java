@@ -11,7 +11,7 @@ import java.util.List;
 public class UserDao extends User implements Dao {
     private static Connection con = null;
 
-    private final static String INSERT = "INSERT INTO user(name) VALUES (?)";
+    private final static String INSERT = "INSERT INTO user(id,nickname,password,avatar) VALUES (NULL,?,?,NULL)";
     private final static String DELETE = "DELETE FROM user WHERE id=?";
     private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? WHERE id=? FROM user";
     private final static String SELECTBYID = "SELECT id,name,password,avatar WHERE id=? FROM user";
@@ -48,64 +48,53 @@ public class UserDao extends User implements Dao {
 
     @Override
     public void save() {
-        if (id==-1){
-            con = Connect.getConnect();
-            if (con != null){
-                PreparedStatement st = null;
-                try {
-                    st = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-                    st.setString(1,this.name);
-                    st.executeUpdate();
-                    ResultSet rs = st.getGeneratedKeys();
-                    if (rs.next()){
-                        this.id = rs.getInt(1);
-                    }
-                    st.close();
-                    rs.close();
-                } catch (SQLException e) {
-                    Log.severe("No se ha podido realizar la consulta save en la base de datos");
-                }
+        con = Connect.getConnect();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(INSERT);
+                st.setString(1,this.name);
+                st.setString(2,this.password);
+                st.executeUpdate();
+                st.close();
+                System.out.println("Usuario insertado correctamente");
+            } catch (SQLException e) {
+                Log.severe("Error al insertar usuario: " + e.getMessage());
             }
         }
     }
 
     @Override
     public void delete() {
-        if (id==-1){
-            con = Connect.getConnect();
-            if (con != null){
-                PreparedStatement st = null;
-                try {
-                    st = con.prepareStatement(DELETE);
-                    st.setInt(1,this.id);
-                    if (st.executeUpdate()==1){
-                        this.id=-1;
-                    }
-                    st.close();
-                } catch (SQLException e) {
-                    Log.severe("No se ha podido realizar la consulta delete en la base de datos");
-                }
+        con = Connect.getConnect();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(DELETE);
+                st.setInt(1,this.id);
+                st.executeUpdate();
+                st.close();
+            } catch (SQLException e) {
+                Log.severe("Error al eliminar usuario: " + e.getMessage());
             }
         }
     }
 
     @Override
     public void update() {
-        if (id==-1){
-            con = Connect.getConnect();
-            if (con != null){
-                PreparedStatement st = null;
-                try {
-                    st = con.prepareStatement(UPDATE);
-                    st.setInt(4,this.id);
-                    st.setString(1,name);
-                    st.setString(2,password);
-                    st.setString(3,avatar);
-                    st.executeUpdate();
-                    st.close();
-                } catch (SQLException e) {
-                    Log.severe("No se ha podido realizar la consulta update en la base de datos");
-                }
+        con = Connect.getConnect();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(UPDATE);
+                st.setInt(4,this.id);
+                st.setString(1,name);
+                st.setString(2,password);
+                st.setString(3,avatar);
+                st.executeUpdate();
+                st.close();
+            } catch (SQLException e) {
+                Log.severe("Error al actualizar usuario: " + e.getMessage());
             }
         }
     }
@@ -131,14 +120,14 @@ public class UserDao extends User implements Dao {
                     }
                     st.close();
                 } catch (SQLException e) {
-                    Log.severe("No se ha podido realizar la consulta getById en la base de datos");
+                    Log.severe("Error al obtener usuario: " + e.getMessage());
                 }
             }
         }
         return user;
     }
 
-    private User getByName(String name){
+    public User getByName(String name){
         UserDao user = new UserDao(id,name,password,avatar);
         con = Connect.getConnect();
         if (con != null){
@@ -158,7 +147,7 @@ public class UserDao extends User implements Dao {
                 }
                 st.close();
             } catch (SQLException e) {
-                Log.severe("No se ha podido realizar la consulta getByName en la base de datos");
+                Log.severe("Error al obtener usuario: " + e.getMessage());
             }
         }
         return user;
@@ -182,7 +171,7 @@ public class UserDao extends User implements Dao {
                 }
                 st.close();
             } catch (SQLException e) {
-                Log.severe("No se ha podido realizar la consulta getAllUsers en la base de datos");
+                Log.severe("Error al obtener usuarios: " + e.getMessage());
             }
         }
         return users;
@@ -199,7 +188,7 @@ public class UserDao extends User implements Dao {
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
-                Log.severe("No se ha podido realizar la consulta follow en la base de datos");
+                Log.severe("Error al seguir usuario: " + e.getMessage());
             }
         }
     }
@@ -218,7 +207,7 @@ public class UserDao extends User implements Dao {
                     }
                     st.close();
                 } catch (SQLException e) {
-                    Log.severe("No se ha podido realizar la consulta unfollow en la base de datos");
+                    Log.severe("Error al dejar de seguir usuario: " + e.getMessage());
                 }
             }
         }
@@ -235,7 +224,7 @@ public class UserDao extends User implements Dao {
                 followers=getAllUsers();
                 st.close();
             } catch (SQLException e) {
-                Log.severe("No se ha podido realizar la consulta getFollowers en la base de datos");
+                Log.severe("Error al obtener seguidores: " + e.getMessage());
             }
         }
         return followers;
@@ -252,7 +241,7 @@ public class UserDao extends User implements Dao {
                 follows=getAllUsers();
                 st.close();
             } catch (SQLException e) {
-                Log.severe("No se ha podido realizar la consulta getFollows en la base de datos");
+                Log.severe("Error al obtener seguidos: " + e.getMessage());
             }
         }
         return follows;
