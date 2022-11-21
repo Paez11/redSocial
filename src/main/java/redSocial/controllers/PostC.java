@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import redSocial.DAO.PostDao;
+import redSocial.DAO.UserDao;
 import redSocial.utils.Windows;
 
 import java.net.URL;
@@ -46,12 +47,14 @@ public class PostC implements Initializable {
     }
 
     public void setDataPost(PostDao p){
-
-        username.setText(p.getUserName().getName());
+        UserDao aux2 = new UserDao();
+        aux2 = (UserDao) aux2.getById(p.getUserName().getId());
+        username.setText(aux2.getName());
         content.setText(p.getText());
         String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
         date.setText(format);
         this.p = p;
+
     }
 
     private void deletePost(){
@@ -68,8 +71,9 @@ public class PostC implements Initializable {
     }
 
     public void switchProfile(){
+        Data.aux= (UserDao) this.p.getUserName();
         Data.p = this.p;
-        App.loadScene(new Stage(), "Profile", "RedSocial", false, false);
+        App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
     }
 
 

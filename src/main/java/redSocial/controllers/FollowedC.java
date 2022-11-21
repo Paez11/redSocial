@@ -60,7 +60,9 @@ public class FollowedC implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if (Data.principalUser.getFollowed().contains(Data.aux)){
+            Followbtn.setText("UnFollow");
+        }
         nickname.setText(Data.aux.getName());
 
         //followedTable.setItems(observableUsers);
@@ -112,9 +114,7 @@ public class FollowedC implements Initializable {
                 fd.save();
                 Followbtn.setText("UnFollow");
             }
-        }
-
-        if (Followbtn.getText().equals("UnFollow")){
+        }else if (Followbtn.getText().equals("UnFollow")){
             if (Data.principalUser.getFollowed().contains(Data.aux)){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Dejar de Seguir");
@@ -127,7 +127,6 @@ public class FollowedC implements Initializable {
                 }
             }
         }
-
     }
 
     public void go(String fxml,boolean windowed){
