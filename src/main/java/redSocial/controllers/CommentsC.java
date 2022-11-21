@@ -3,6 +3,7 @@ package redSocial.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
@@ -25,6 +26,11 @@ public class CommentsC  implements Initializable {
     private Label nickname;
     @FXML
     private TextArea CommentText;
+    @FXML
+    private Button publish;
+    @FXML
+    private Button back;
+
 
     private List<Comment> comments;
 
@@ -46,6 +52,15 @@ public class CommentsC  implements Initializable {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void publishComment(){
+        CommentDao cd = new CommentDao();
+        cd.setTextComment(CommentText.getText());
+        cd.setUserComment(Data.principalUser);
+        cd.setPost(Data.p);
+        cd.save();
     }
 
     private List<Comment> comments(){

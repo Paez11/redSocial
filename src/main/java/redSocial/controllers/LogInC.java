@@ -1,6 +1,7 @@
 package redSocial.controllers;
 
 import javafx.scene.input.KeyCode;
+import redSocial.DAO.FollowDao;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 import javafx.application.Platform;
@@ -52,6 +53,8 @@ public class LogInC implements Initializable {
             Data.principalUser.getByName(nickname);
             Data.principalUser.setName(nickname);           //No se por que?, pero getByName no setea el nombre del usuario
             if (Data.principalUser.getName()!=null && Data.principalUser.getPassword().equals(password)){
+                FollowDao fd = new FollowDao();
+                Data.principalUser.setFollowed(fd.getByName(Data.principalUser));
                 App.loadScene(new Stage(), "Home", "RedSocial", false, false);
                 App.closeScene((Stage) anchorPane.getScene().getWindow());
             }else{

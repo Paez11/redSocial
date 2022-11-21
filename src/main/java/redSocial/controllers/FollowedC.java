@@ -8,19 +8,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import redSocial.DAO.FollowDao;
 import redSocial.model.User;
-import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProfileC implements Initializable {
-
-    //List<User> followed = Data.principalUser.getFollowed();
-
-    //private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
-
+public class FollowedC implements Initializable {
     @FXML
     private TextField nickname;
 
@@ -31,13 +27,8 @@ public class ProfileC implements Initializable {
     private ImageView profileImage;
 
     @FXML
-    private Button photoEditBtn;
+    private Button Followbtn;
 
-    @FXML
-    private Button nickNameEditBtn;
-
-    @FXML
-    private Button passwordEditBtn;
 
     @FXML
     private Button homeBtn;
@@ -70,7 +61,7 @@ public class ProfileC implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        nickname.setText(Data.principalUser.getName());
+        nickname.setText(Data.aux.getName());
 
         //followedTable.setItems(observableUsers);
 
@@ -95,23 +86,6 @@ public class ProfileC implements Initializable {
 
      */
 
-    public void editNickName(ActionEvent event){
-        String newNickName = "";
-        Data.principalUser.update();
-        nickname.setText(newNickName);
-    }
-
-    public void editPassword(ActionEvent event){
-        String newPassword = "";
-        newPassword = Valid.sha256(String.valueOf(password));
-        Data.principalUser.update();
-        password.setText(newPassword);
-    }
-
-    public void editPhoto(ActionEvent event){
-
-    }
-
     public void switchPane(ActionEvent event){
         Object source = event.getSource();
         if (homeBtn.equals(source)) {
@@ -129,6 +103,33 @@ public class ProfileC implements Initializable {
         }
     }
 
+    @FXML
+    public void FollowUser(){
+        if (Followbtn.getText().equals("Follow")){
+            if (!Data.principalUser.getFollowed().contains(Data.aux)){
+                Data.principalUser.getFollowed().add(Data.aux);
+                FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
+                fd.save();
+                Followbtn.setText("UnFollow");
+            }
+        }
+
+        if (Followbtn.getText().equals("UnFollow")){
+            if (Data.principalUser.getFollowed().contains(Data.aux)){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Dejar de Seguir");
+                alert.setHeaderText("¿Estas seguro?");
+                alert.setContentText("¿Estas seguro de que quieres dejar de seguir a este usuario?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
+                    fd.deletebyusers(Data.principalUser, Data.aux);
+                }
+            }
+        }
+
+    }
+
     public void go(String fxml,boolean windowed){
         if (windowed) {
             App.loadScene(new Stage(), fxml, "RedSocial", false, false);
@@ -137,13 +138,4 @@ public class ProfileC implements Initializable {
             App.loadScene(new Stage(), fxml, "redSocial", true, false);
         }
     }
-
-
-    /*
-    public void refresh() {
-        observableUsers.removeAll(observableUsers);
-        observableUsers.addAll(followed);
-    }
-    */
 }
-
