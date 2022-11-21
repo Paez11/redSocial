@@ -5,11 +5,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import redSocial.DAO.PostDao;
+import redSocial.utils.Windows;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class PostC implements Initializable {
+
+    private PostDao p;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private Label username;
@@ -24,12 +34,42 @@ public class PostC implements Initializable {
     private Button likes;
 
     @FXML
+    private Button comments;
+
+    @FXML
     private ImageView profileImage;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //setDataPost(p);
+    }
 
+    public void setDataPost(PostDao p){
+
+        username.setText(p.getUserName().getName());
+        content.setText(p.getText());
+        String format = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(p.getDateCreate());
+        date.setText(format);
+        this.p = p;
+    }
+
+    private void deletePost(){
+        if (Data.principalUser.getId()==p.getUserName().getId()){
+            p.delete();
+        }else {
+            Windows.mostrarAlerta("ERROR","ERROR","No puedes borrar este post");
+        }
+    }
+
+    public void openComments(){
+        Data.p = this.p;
+        App.loadScene(new Stage(), "Comments", "RedSocial", true, false);
+    }
+
+    public void switchProfile(){
+        Data.p = this.p;
+        App.loadScene(new Stage(), "Profile", "RedSocial", false, false);
     }
 
 

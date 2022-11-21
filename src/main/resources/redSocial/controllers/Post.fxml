@@ -7,24 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="500.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.PostC">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="500.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.PostC">
     <children>
-      <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="72.0">
+      <Button mnemonicParsing="false" onAction="#switchProfile" prefHeight="70.0" prefWidth="72.0">
          <graphic>
-              <ImageView fitHeight="45.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+              <ImageView fx:id="profileImage" fitHeight="45.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                       <Image url="@../../icons/user.png" />
                   </image>
               </ImageView>
          </graphic>
       </Button>
-        <Label layoutX="84.0" layoutY="13.0" prefHeight="28.0" prefWidth="241.0" text="user">
+        <Label fx:id="username" layoutX="84.0" layoutY="13.0" prefHeight="28.0" prefWidth="241.0" text="user">
          <font>
             <Font size="15.0" />
          </font></Label>
-        <Label alignment="TOP_LEFT" ellipsisString="" layoutX="84.0" layoutY="46.0" prefHeight="157.0" prefWidth="404.0" text="Post" />
-        <Label layoutX="389.0" layoutY="17.0" prefHeight="20.0" prefWidth="101.0" text="Fecha" />
-      <Button layoutX="3.0" layoutY="210.0" mnemonicParsing="false" text="me gusta" />
-      <Button layoutX="84.0" layoutY="210.0" mnemonicParsing="false" text="comentarios" />
+        <Label fx:id="content" alignment="TOP_LEFT" ellipsisString="" layoutX="84.0" layoutY="46.0" prefHeight="157.0" prefWidth="404.0" text="Post" />
+        <Label fx:id="date" layoutX="389.0" layoutY="17.0" prefHeight="20.0" prefWidth="101.0" text="Fecha" />
+      <Button fx:id="likes" layoutX="3.0" layoutY="210.0" mnemonicParsing="false" text="me gusta" />
+      <Button fx:id="comments" layoutX="84.0" layoutY="210.0" mnemonicParsing="false" onAction="#openComments" text="comentarios" />
     </children>
 </AnchorPane>

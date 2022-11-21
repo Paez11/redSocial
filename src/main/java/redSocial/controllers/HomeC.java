@@ -8,11 +8,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import redSocial.DAO.PostDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
@@ -22,6 +26,7 @@ import redSocial.utils.contador.Read;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +38,7 @@ public class HomeC implements Initializable {
     Thread inc = new Increment(c);
     Thread read = new Read(c);
 
+    private List<PostDao> posts;
     //List<User> followed = Data.principalUser.getFollowed();
 
     //private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
@@ -69,6 +75,8 @@ public class HomeC implements Initializable {
 
     @FXML
     private VBox pnItems = null;
+    @FXML
+    private GridPane gridPane = null;
 
     @FXML
     private Label contadorLabel;
@@ -110,10 +118,41 @@ public class HomeC implements Initializable {
         }
 
     }
+    private List<PostDao> posts() {
+        List<PostDao> ls = PostDao.getAll();
+
+        return ls;
+    }
 
     public void loadPosts(){
+        posts = new ArrayList<>(posts());
+        int columns = 0;
+        int row = 1;
+        try {
+            for (int i = 0; i < posts.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Post.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                PostC post = fxmlLoader.getController();
+                post.setDataPost(posts.get(i));
+                if(columns == 1) {
+                    columns = 0;
+                    ++row;
+                }
+                gridPane.add(anchorPane, columns++, row);
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException e) {
+            Log.severe("Error al cargar los posts "+e.getMessage());
+        }
+    }
 
-        Node[] nodes = new Node[4];
+    /*
+    public void loadPosts(){
+        PostDao posts = new PostDao();
+        //posts.getAll();
+        Node[] nodes = new Node[posts.getAll().size()];
+
         pnItems.setSpacing(15);
         for (int i = 0; i < nodes.length; i++){
             try {
@@ -133,6 +172,7 @@ public class HomeC implements Initializable {
             }
         }
     }
+     */
 
     public void refreshPosts(){
 
