@@ -87,8 +87,8 @@ public class FollowDao extends Follow {
                     if (rs.next()){
                         UserDao followed = new UserDao();
                         followed.setId(rs.getInt(1));
-                        followed.getById(followed.getId());
-                        followeds.add(followed);
+                        UserDao add= (UserDao) followed.getById(followed.getId());
+                        followeds.add(add);
                     }
                     rs.close();
                 }
