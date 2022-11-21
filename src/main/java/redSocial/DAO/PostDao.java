@@ -106,10 +106,9 @@ public class PostDao extends Post implements Dao {
         }
     }
 
-    public static List<Post> getAll(){
-        List<Post> result = new ArrayList();
+    public static List<PostDao> getAll(){
+        List<PostDao> result = new ArrayList();
         Connection cn = Connect.getConnect();
-        CommentDao comments = null;
         UserDao user = new UserDao();
         if(cn != null) {
             PreparedStatement ps;
@@ -118,12 +117,11 @@ public class PostDao extends Post implements Dao {
                 if(ps.execute()) {
                     ResultSet rs = ps.getResultSet();
                     while(rs.next()) {
-                        Post p = new Post(user.getById(rs.getInt("id_user")),
+                        PostDao p = new PostDao(user.getById(rs.getInt("id_user")),
                                 rs.getInt("id"),
                                 rs.getDate("fecha_creacion"),
                                 rs.getDate("fecha_modificacion"),
                                 rs.getString("texto"));
-                                p.setComments((List<Comment>) comments.getById(rs.getInt(1)));
                         result.add(p);
                     }
                     rs.close();
@@ -136,7 +134,7 @@ public class PostDao extends Post implements Dao {
         return result;
     }
 
-    protected Post getById(int id) {
+    public Post getById(int id) {
         Connection cn = Connect.getConnect();
         UserDao user = new UserDao();
         PostDao post = new PostDao(userName, id, dateCreate, dateUpdate, text, comments, likes);
