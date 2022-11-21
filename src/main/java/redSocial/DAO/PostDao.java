@@ -20,7 +20,7 @@ public class PostDao extends Post implements Dao {
     private final static String DELETE = "DELETE FROM post WHERE id=?";
     private final static String SELECTBYID = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id=?";
     private final static String SELECTALL = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post";
-    private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=?";
+    private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=? Group by fecha_creacion DESC";
     private final static String SELECTCOMMENTS = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=?";
 
     public PostDao(User u, int id){
@@ -185,6 +185,32 @@ public class PostDao extends Post implements Dao {
             }
         }
         return comments;
+    }
+
+    public static List<PostDao> getAllByUser(int id){
+        UserDao user = new UserDao();
+        Connection cn = Connect.getConnect();
+        List<PostDao> posts = new ArrayList<PostDao>();
+
+        if(cn != null) {
+            try {
+                PreparedStatement ps = cn.prepareStatement(SELECTBYUSER);
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                    PostDao p = new PostDao();
+                    p.setId(rs.getInt("id"));
+                    p.setText(rs.getString("texto"));
+                    p.setDateCreate(rs.getDate("fecha_creacion"));
+                    p.setUserName(user.getById(rs.getInt("id_user")));
+                    posts.add(p);
+                }
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return posts;
     }
 
     public List<User> getWhoLikes(){
