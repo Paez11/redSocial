@@ -14,6 +14,7 @@ import redSocial.DAO.CommentDao;
 import redSocial.DAO.PostDao;
 import redSocial.model.Comment;
 import redSocial.model.User;
+import redSocial.utils.Log;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +38,10 @@ public class CommentsC  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadComments();
+    }
+
+    public void loadComments(){
         comments= new ArrayList<>(comments());
         int columns=0;
         int rows=1;
@@ -48,13 +53,16 @@ public class CommentsC  implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
                 CommentC commentC= fxmlLoader.getController();
                 commentC.setData(comments.get(i));
-
+                if(columns == 1) {
+                    columns = 0;
+                    ++rows;
+                }
                 commentGrid.add(anchorPane, columns++, rows);
-                GridPane.setMargin(anchorPane, new Insets(10));
+                commentGrid.setMargin(anchorPane, new Insets(10));
             }
 
         }catch (IOException e){
-            e.printStackTrace();
+            Log.severe("Error al cargar los comentarios"+e.getMessage());
         }
     }
 
