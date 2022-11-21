@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.CommentsC">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.CommentsC">
    <children>
-       <ScrollPane layoutY="126.0" prefHeight="205.0" prefWidth="600.0" style="-fx-background-color: black;" styleClass="scroll">
+       <ScrollPane layoutY="126.0" prefHeight="224.0" prefWidth="600.0" style="-fx-background-color: black;" styleClass="scroll">
            <content>
                <GridPane fx:id="commentGrid" prefHeight="39.0" prefWidth="43.0">
                    <columnConstraints>
@@ -25,14 +25,16 @@
                </GridPane>
            </content>
        </ScrollPane>
-      <TextArea fx:id="CommentText" layoutX="181.0" layoutY="36.0" prefHeight="62.0" prefWidth="205.0" promptText="Wirte your comment" />
-      <ImageView fitHeight="47.0" fitWidth="46.0" layoutX="46.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../icons/user.png" />
-         </image>
-      </ImageView>
+      <TextArea fx:id="CommentText" layoutX="32.0" layoutY="36.0" prefHeight="62.0" prefWidth="414.0" promptText="Wirte your comment" />
       <Label fx:id="nickname" layoutX="108.0" layoutY="59.0" />
-      <Button fx:id="back" layoutX="253.0" layoutY="347.0" mnemonicParsing="false" text="Volver al inicio" />
-      <Button fx:id="publish" layoutX="422.0" layoutY="55.0" mnemonicParsing="false" onAction="#publishComment" text="Publicar comentario" />
+      <Button fx:id="back" layoutX="275.0" layoutY="361.0" mnemonicParsing="false" onAction="#back" text="Volver" />
+      <Button fx:id="publish" layoutX="498.0" layoutY="49.0" mnemonicParsing="false" onAction="#publishComment" prefHeight="31.0" prefWidth="50.0">
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/send.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
    </children>
 </AnchorPane>

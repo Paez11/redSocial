@@ -32,10 +32,19 @@ public class PostC implements Initializable {
     private Label content;
 
     @FXML
+    private Label editLabel;
+
+    @FXML
     private Button likes;
 
     @FXML
     private Button comments;
+
+    @FXML
+    private Button delete;
+
+    @FXML
+    private Button update;
 
     @FXML
     private ImageView profileImage;
@@ -44,6 +53,7 @@ public class PostC implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //setDataPost(p);
+        editLabel.setVisible(false);
     }
 
     public void setDataPost(PostDao p){
@@ -54,14 +64,28 @@ public class PostC implements Initializable {
         String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
         date.setText(format);
         this.p = p;
-
+        if (Data.principalUser.getId()==p.getUserName().getId()) {
+            delete.setVisible(true);
+            update.setVisible(true);
+        }else{
+            delete.setVisible(false);
+            update.setVisible(false);
+        }
     }
 
-    private void deletePost(){
+    public void deletePost(){
         if (Data.principalUser.getId()==p.getUserName().getId()){
             p.delete();
         }else {
             Windows.mostrarAlerta("ERROR","ERROR","No puedes borrar este post");
+        }
+    }
+
+    public void updatePost(){
+        if (Data.principalUser.getId()==p.getUserName().getId()){
+            App.loadScene(new Stage(), "UpdatePost", "RedSocial", true, false);
+        }else {
+            Windows.mostrarAlerta("ERROR","ERROR","No puedes editar este post");
         }
     }
 
@@ -74,6 +98,7 @@ public class PostC implements Initializable {
         Data.aux= (UserDao) this.p.getUserName();
         Data.p = this.p;
         App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
 
 

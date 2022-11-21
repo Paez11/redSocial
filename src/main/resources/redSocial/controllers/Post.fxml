@@ -23,8 +23,11 @@
             <Font size="15.0" />
          </font></Label>
         <Label fx:id="content" alignment="TOP_LEFT" ellipsisString="" layoutX="84.0" layoutY="46.0" prefHeight="157.0" prefWidth="404.0" text="Post" />
-        <Label fx:id="date" layoutX="389.0" layoutY="17.0" prefHeight="20.0" prefWidth="101.0" text="Fecha" />
+        <Label fx:id="date" layoutX="393.0" layoutY="17.0" prefHeight="20.0" prefWidth="101.0" text="Fecha" />
       <Button fx:id="likes" layoutX="3.0" layoutY="210.0" mnemonicParsing="false" text="me gusta" />
       <Button fx:id="comments" layoutX="84.0" layoutY="210.0" mnemonicParsing="false" onAction="#openComments" text="comentarios" />
+      <Button fx:id="delete" layoutX="175.0" layoutY="210.0" mnemonicParsing="false" onAction="#deletePost" text="eliminar" />
+      <Button fx:id="update" layoutX="250.0" layoutY="210.0" mnemonicParsing="false" onAction="#updatePost" text="editar" />
+      <Label fx:id="editLabel" layoutX="328.0" layoutY="17.0" prefHeight="20.0" prefWidth="59.0" text="(editado)" />
     </children>
 </AnchorPane>
