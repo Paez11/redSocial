@@ -3,9 +3,11 @@ package redSocial.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import redSocial.DAO.CommentDao;
@@ -31,7 +33,6 @@ public class CommentsC  implements Initializable {
     @FXML
     private Button back;
 
-
     private List<Comment> comments;
 
     @Override
@@ -44,9 +45,12 @@ public class CommentsC  implements Initializable {
             for (int i = 0; i < comments.size(); i++){
                 FXMLLoader fxmlLoader= new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("Comment.fxml"));
-                VBox box = fxmlLoader.load();
+                AnchorPane anchorPane = fxmlLoader.load();
                 CommentC commentC= fxmlLoader.getController();
                 commentC.setData(comments.get(i));
+
+                commentGrid.add(anchorPane, columns++, rows);
+                GridPane.setMargin(anchorPane, new Insets(10));
             }
 
         }catch (IOException e){
@@ -63,13 +67,9 @@ public class CommentsC  implements Initializable {
         cd.save();
     }
 
-    private List<Comment> comments(){
-        User u=Data.principalUser;
-        PostDao p= Data.p;
-        CommentDao cd = new CommentDao();
-        List<Comment> lc = new ArrayList<>();
-        lc=cd.getAllByPost(p);
+    private List<CommentDao> comments(){
+        List<CommentDao> ls = CommentDao.getAllByPost(Data.p);
 
-        return lc;
+        return ls;
     }
 }

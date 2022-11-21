@@ -8,23 +8,28 @@ import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CommentDao extends Comment implements Dao {
 
     private static Connection con = null;
 
-    private final static String INSERT = "INSERT INTO comments (id_user,texto,id_post) VALUES (?,?,?)";
+    private final static String INSERT = "INSERT INTO comments (id_user,texto,id_post,fecha) VALUES (?,?,?,?)";
     private final static String DELETE = "DELETE FROM comments WHERE id=?";
-    private final static String UPDATE = "UPDATE comments SET texto=? WHERE id=? FROM comments";
-    private final static String SELECTBYID = "SELECT id,id_user,texto,id_post FROM comments WHERE id=?";
-    private final static String SELECTBYUSERPOST = "SELECT id,id_user,texto,id_post FROM comments where id_user=? and id_post=?";
-    private final static String SELECTBYPOST = "SELECT id,id_user,texto,id_post FROM comments where id_post=?";
+    private final static String UPDATE = "UPDATE comments SET texto=?, fecha=? WHERE id=? FROM comments";
+    private final static String SELECTBYID = "SELECT id,id_user,texto,id_post,fecha FROM comments WHERE id=?";
+    private final static String SELECTBYUSERPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_user=? and id_post=?";
+    private final static String SELECTBYPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_post=? ORDER BY fecha DESC";
 
 
-    public CommentDao(int id,User userComment, String textComment, Post post) {
-        super(id,userComment,textComment,post);
+    public CommentDao(int id, User userComment, String textComment, Post post, Date date) {
+        super(id,userComment,textComment,post,date);
+    }
+    public CommentDao(User userComment, Post post) {
+        super(userComment,post);
     }
 
     public CommentDao(int id) {
@@ -50,6 +55,7 @@ public class CommentDao extends Comment implements Dao {
                 ps.setInt(1, this.getUserComment().getId());
                 ps.setString(2, this.getTextComment());
                 ps.setInt(3, this.getPost().getId());
+                ps.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
                 ps.executeUpdate();  //devuelve 1 si ha salido bien
                 ResultSet rs = ps.getGeneratedKeys();
                 if(rs.next()) {
@@ -88,8 +94,9 @@ public class CommentDao extends Comment implements Dao {
             PreparedStatement st = null;
             try {
                 st = con.prepareStatement(UPDATE);
-                st.setInt(4,this.id);
+                st.setInt(3,this.id);
                 st.setString(1,this.textComment);
+                st.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
@@ -99,7 +106,7 @@ public class CommentDao extends Comment implements Dao {
     }
 
     protected Comment getById(int id) {
-        CommentDao comment = new CommentDao(id, UserComment, textComment, post);
+        CommentDao comment = new CommentDao(id, UserComment, textComment, post, date);
         UserDao aux = null;
         PostDao aux2 = null;
         con = Connect.getConnect();
@@ -116,6 +123,7 @@ public class CommentDao extends Comment implements Dao {
                     this.textComment = rs.getString("texto");
                     aux2 = (PostDao) aux2.getById(rs.getInt("id_post"));
                     this.post = aux2;
+                    this.date = rs.getDate("fecha");
                 }
                 ps.close();
                 rs.close();
@@ -143,7 +151,8 @@ public class CommentDao extends Comment implements Dao {
                         int id=rs.getInt("id");
                         user = (UserDao) user.getById(rs.getInt("id_user"));
                         String texto = rs.getString("texto");
-                        result.add(new Comment(id,user, texto, postByS));
+                        Date date = rs.getDate("fecha");
+                        result.add(new Comment(id,user, texto, postByS,date));
 
                     }
                     rs.close();
@@ -156,8 +165,9 @@ public class CommentDao extends Comment implements Dao {
         return result;
     }
 
-    public List<Comment> getAllByPost(Post postByS){
-        List<Comment> result = new ArrayList<Comment>();
+    public static List<CommentDao> getAllByPost(Post postByS){
+        List<CommentDao> result = new ArrayList<CommentDao>();
+        UserDao user = null;
         con = Connect.getConnect();
         if(con != null) {
             PreparedStatement ps;
@@ -169,10 +179,11 @@ public class CommentDao extends Comment implements Dao {
                     ResultSet rs = ps.getResultSet();
                     while(rs.next()) {
                         int id=rs.getInt("id");
-                        UserDao user = new UserDao( rs.getInt("id_user"));
+                        user = new UserDao( rs.getInt("id_user"));
                         String texto = rs.getString("texto");
                         Post post= new Post(rs.getInt("id_post"));
-                        result.add(new Comment(id,user, texto, post));
+                        Date date = rs.getDate("fecha");
+                        result.add(new CommentDao(id,user, texto, post,date));
 
                     }
                     rs.close();
