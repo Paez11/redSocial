@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import redSocial.DAO.PostDao;
+import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Valid;
@@ -113,7 +114,9 @@ public class ProfileC implements Initializable {
                         // clicking on text part
                         row = (TableRow) node.getParent();
                     }
+                    Data.aux= (UserDao) row.getItem();
                     App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+                    App.closeScene((Stage) borderPane.getScene().getWindow());
                 }
             }
         });

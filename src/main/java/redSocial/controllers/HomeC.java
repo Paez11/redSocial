@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import redSocial.DAO.PostDao;
+import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
@@ -103,10 +104,12 @@ public class HomeC implements Initializable {
                     TableRow row;
                     if (node instanceof TableRow) {
                         row = (TableRow) node;
+
                     } else {
                         // clicking on text part
                         row = (TableRow) node.getParent();
                     }
+                    Data.aux= (UserDao) row.getItem();
                     App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
                     App.closeScene((Stage) borderPane.getScene().getWindow());
                 }
