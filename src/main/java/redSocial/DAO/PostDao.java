@@ -93,7 +93,7 @@ public class PostDao extends Post implements Dao {
                 PreparedStatement ps;
                 try {
                     ps = cn.prepareStatement(UPDATE);
-                    ps.setDate(1, this.getDateUpdate());
+                    ps.setDate(1, Date.valueOf(LocalDate.now()));
                     ps.setString(2, this.getText());
                     ps.setInt(3, this.getId());
                     ps.executeUpdate();  //devuelve 1 si funciona

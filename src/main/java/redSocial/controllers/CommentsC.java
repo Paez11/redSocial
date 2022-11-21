@@ -10,11 +10,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import redSocial.DAO.CommentDao;
 import redSocial.DAO.PostDao;
 import redSocial.model.Comment;
 import redSocial.model.User;
 import redSocial.utils.Log;
+import redSocial.utils.Windows;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +35,8 @@ public class CommentsC  implements Initializable {
     private Button publish;
     @FXML
     private Button back;
+    @FXML
+    private AnchorPane anchorPane;
 
     private List<Comment> comments;
 
@@ -79,5 +83,9 @@ public class CommentsC  implements Initializable {
         List<CommentDao> ls = CommentDao.getAllByPost(Data.p);
 
         return ls;
+    }
+
+    public void back(){
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
 }

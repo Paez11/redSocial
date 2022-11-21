@@ -3,22 +3,34 @@ package redSocial.controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import redSocial.DAO.FollowDao;
+import redSocial.DAO.PostDao;
 import redSocial.model.User;
+import redSocial.utils.Log;
 import redSocial.utils.Windows;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class FollowedC implements Initializable {
+
+    private List<PostDao> posts;
+
     @FXML
-    private TextField nickname;
+    private Label nickname;
 
     @FXML
     private PasswordField password;
@@ -56,6 +68,10 @@ public class FollowedC implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private AnchorPane anchorPane;
 
 
     @Override
@@ -64,6 +80,7 @@ public class FollowedC implements Initializable {
             Followbtn.setText("UnFollow");
         }
         nickname.setText(Data.aux.getName());
+        loadUserPosts();
 
         //followedTable.setItems(observableUsers);
 
@@ -87,6 +104,35 @@ public class FollowedC implements Initializable {
     }
 
      */
+
+    public void loadUserPosts(){
+        posts = new ArrayList<>(Userposts());
+        int columns = 0;
+        int row = 1;
+        try {
+            for (int i = 0; i < posts.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Post.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                PostC post = fxmlLoader.getController();
+                post.setDataPost(posts.get(i));
+                if(columns == 1) {
+                    columns = 0;
+                    ++row;
+                }
+                gridPane.add(anchorPane, columns++, row);
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException e) {
+            Log.severe("Error al cargar los posts "+e.getMessage());
+        }
+    }
+
+    private List<PostDao> Userposts() {
+        List<PostDao> ls = PostDao.getAllByUser(Data.aux.getId());
+
+        return ls;
+    }
 
     public void switchPane(ActionEvent event){
         Object source = event.getSource();
