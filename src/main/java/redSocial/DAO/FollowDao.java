@@ -17,7 +17,7 @@ public class FollowDao extends Follow {
     private final static String INSERT = "INSERT INTO follower (id_user,id_follower,id) VALUES (?,?,NULL)";
     private final static String DELETE = "DELETE FROM follower WHERE id=?";
     private final static String DELETEBYUSERS = "DELETE FROM follower WHERE id_user=? id_follower=?";
-    private final static String GETBYUSER = "SELECT id_follower FROM follower WHERE id_user=?";
+    private final static String GETBYUSER = "SELECT id_follower FROM follower WHERE id_follow=?";
 
     public FollowDao(User user, User followed) {
         super(user, followed);

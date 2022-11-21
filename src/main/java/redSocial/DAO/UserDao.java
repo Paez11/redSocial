@@ -137,7 +137,7 @@ public class UserDao extends User implements Dao {
                 if (st.execute()){
                     ResultSet rs = st.getResultSet();
                     if (rs.next()){
-                        name=rs.getString(1);
+                        this.name=rs.getString("name");
                         this.id = rs.getInt("id");
                         this.password = rs.getString("password");
                         this.avatar = rs.getString("avatar");
@@ -149,6 +149,10 @@ public class UserDao extends User implements Dao {
                 Log.severe("Error al obtener usuario: " + e.getMessage());
             }
         }
+        user.setName(this.name);
+        user.setId(this.id);
+        user.setPassword(this.password);
+        user.setAvatar(this.avatar);
         return user;
     }
 
