@@ -1,5 +1,8 @@
 package redSocial.model;
 
+import javafx.geometry.Pos;
+
+import java.util.Date;
 import java.util.Objects;
 
 public class Comment {
@@ -7,11 +10,18 @@ public class Comment {
     protected User UserComment;
     protected String textComment;
     protected Post post;
+    protected Date date;
 
-    public Comment(int id, User userComment, String textComment, Post post) {
+    public Comment(int id, User userComment, String textComment, Post post, Date date) {
         this.id = id;
         this.UserComment = userComment;
         this.textComment = textComment;
+        this.post = post;
+        this.date = date;
+    }
+
+    public Comment(User userComment, Post post){
+        this.UserComment = userComment;
         this.post = post;
     }
 
@@ -65,6 +75,13 @@ public class Comment {
         this.post = post;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @Override
     public boolean equals(Object o) {
