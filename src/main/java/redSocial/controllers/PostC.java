@@ -49,7 +49,7 @@ public class PostC implements Initializable {
 
         username.setText(p.getUserName().getName());
         content.setText(p.getText());
-        String format = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(p.getDateCreate());
+        String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
         date.setText(format);
         this.p = p;
     }

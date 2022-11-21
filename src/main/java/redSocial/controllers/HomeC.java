@@ -89,7 +89,6 @@ public class HomeC implements Initializable {
         read.setDaemon(true);
 
         loadPosts();
-        Contador();
 
         followedList();
         refresh();
