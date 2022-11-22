@@ -37,13 +37,16 @@ public class HomeC implements Initializable {
 
     Counter c = new Counter();
 
-    Thread inc = new Increment(c);
-    Thread read = new Read(c);
+    Increment inc = new Increment(c);
+    Read read = new Read(c);
 
     private List<PostDao> posts;
     List<User> followed = Data.principalUser.getFollowed();
 
     private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
+    private String secs;
+    private String min;
+    private String hours;
 
     @FXML
     private Button homeBtn;
@@ -89,7 +92,6 @@ public class HomeC implements Initializable {
 
         inc.setDaemon(true);
         read.setDaemon(true);
-
         loadPosts();
 
         followed= Data.principalUser.getFollowed();
@@ -117,10 +119,10 @@ public class HomeC implements Initializable {
         });
 
         refresh();
-
         Platform.runLater(()->{
             Windows.closeRequest((Stage) borderPane.getScene().getWindow());
         });
+        Contador();
     }
 
     public void followedList(){
@@ -131,16 +133,13 @@ public class HomeC implements Initializable {
         });
     }
 
-    @FXML
     public void Contador(){
 
         inc.start();
         read.start();
-
-        if (read.isAlive()){
-            contadorLabel.setText(String.valueOf(c.getVal()));
+        if (true){
+            contadorLabel.setText(read.getHours()+":"+ read.getMin()+":"+ read.getSec());
         }
-
     }
     private List<PostDao> posts() {
         List<PostDao> ls = PostDao.getAll();

@@ -105,10 +105,10 @@ public class CommentDao extends Comment implements Dao {
         }
     }
 
-    protected Comment getById(int id) {
+    public Comment getById(int id) {
         CommentDao comment = new CommentDao(id, UserComment, textComment, post, date);
-        UserDao aux = null;
-        PostDao aux2 = null;
+        UserDao aux = new UserDao();
+        PostDao aux2 = new PostDao();
         con = Connect.getConnect();
         if(con != null) {
             PreparedStatement ps;
@@ -119,11 +119,11 @@ public class CommentDao extends Comment implements Dao {
                 if(rs.next()) {
                     aux = (UserDao) aux.getById(rs.getInt("id_user"));
                     id = rs.getInt(1);
-                    this.UserComment = aux;
-                    this.textComment = rs.getString("texto");
+                    comment.UserComment = aux;
+                    comment.textComment = rs.getString("texto");
                     aux2 = (PostDao) aux2.getById(rs.getInt("id_post"));
-                    this.post = aux2;
-                    this.date = rs.getDate("fecha");
+                    comment.post = aux2;
+                    comment.date = rs.getDate("fecha");
                 }
                 ps.close();
                 rs.close();
