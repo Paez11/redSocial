@@ -8,10 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static redSocial.controllers.Data.t;
+
 public class App extends Application {
 
     @Override
     public void start(Stage stage){
+        t.start();
         loadScene(new Stage(),"LogIn","RedSocial",false,false);
     }
 
