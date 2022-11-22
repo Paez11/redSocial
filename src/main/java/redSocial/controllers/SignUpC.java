@@ -1,5 +1,6 @@
 package redSocial.controllers;
 
+import javafx.scene.input.KeyCode;
 import redSocial.DAO.UserDao;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
@@ -60,7 +61,13 @@ public class SignUpC implements Initializable {
             }
         }
     }
-
+    public void enter(){
+        Password2.setOnKeyPressed( event -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                SignUp();
+            }
+        });
+    }
     @FXML
     private void switchToLogIn(ActionEvent event) throws IOException {
         App.loadScene(new Stage(),"LogIn","RedSocial",false,false);
