@@ -97,6 +97,7 @@ public class FollowedC implements Initializable {
         observableUsers= FXCollections.observableArrayList(followed);
         followedList();
         followedTable.setItems(FXCollections.observableArrayList(observableUsers));
+        refresh();
         followedTable.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -186,6 +187,7 @@ public class FollowedC implements Initializable {
                 FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
                 fd.save();
                 Followbtn.setText("UnFollow");
+                refresh();
             }
         }else if (Followbtn.getText().equals("UnFollow")){
             if (Data.principalUser.getFollowed().contains(Data.aux)){
@@ -197,6 +199,9 @@ public class FollowedC implements Initializable {
                 if (result.get() == ButtonType.OK) {
                     FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
                     fd.deletebyusers(Data.principalUser, Data.aux);
+                    Data.principalUser.getFollowed().remove(Data.aux);
+                    Followbtn.setText("Follow");
+                    refresh();
                 }
             }
         }
