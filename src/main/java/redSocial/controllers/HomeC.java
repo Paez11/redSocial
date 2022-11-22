@@ -23,9 +23,6 @@ import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
-import redSocial.utils.contador.Counter;
-import redSocial.utils.contador.Increment;
-import redSocial.utils.contador.Read;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,13 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static redSocial.controllers.Data.c;
+import static redSocial.controllers.Data.t;
+
 public class HomeC implements Initializable {
-
-    Counter c = new Counter();
-
-    Increment inc = new Increment(c);
-    Read read = new Read(c);
-
     private List<PostDao> posts;
     List<User> followed = Data.principalUser.getFollowed();
 
@@ -82,16 +76,21 @@ public class HomeC implements Initializable {
     private VBox pnItems = null;
     @FXML
     private GridPane gridPane = null;
-
     @FXML
-    private Label contadorLabel;
+    private Label Label_Minuto;
+    @FXML
+    private Label Label_Segundo;
+    @FXML
+    private Label Label_Hora;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //followedTable.setItems(observableUsers);
 
-        inc.setDaemon(true);
-        read.setDaemon(true);
+
+        Label_Hora.textProperty().bind(c.getFraseHora());
+        Label_Minuto.textProperty().bind(c.getFraseMinuto());
+        Label_Segundo.textProperty().bind(c.getFraseSegundo());
         loadPosts();
 
         followed= Data.principalUser.getFollowed();
@@ -122,7 +121,6 @@ public class HomeC implements Initializable {
         Platform.runLater(()->{
             Windows.closeRequest((Stage) borderPane.getScene().getWindow());
         });
-        Contador();
     }
 
     public void followedList(){
@@ -131,15 +129,6 @@ public class HomeC implements Initializable {
             ssp.setValue(follower.getValue().getName());
             return ssp;
         });
-    }
-
-    public void Contador(){
-
-        inc.start();
-        read.start();
-        if (true){
-            contadorLabel.setText(read.getHours()+":"+ read.getMin()+":"+ read.getSec());
-        }
     }
     private List<PostDao> posts() {
         List<PostDao> ls = PostDao.getAll();
@@ -185,8 +174,8 @@ public class HomeC implements Initializable {
             go("CreatePost",false);
         } else if (logoutBtn.equals(source)) {
             go("LogIn",true);
-            inc.stop();
-            read.stop();
+            t.stop();
+            c.stop();
         } else if (searchBtn.equals(source)) {
             Windows.mostrarAlerta("Error", "SearchBar", "No implementado");
         } else if (configBtn.equals(source)) {
