@@ -1,19 +1,26 @@
 package redSocial.controllers;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import redSocial.DAO.FollowDao;
 import redSocial.DAO.PostDao;
+import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
@@ -28,6 +35,10 @@ import java.util.ResourceBundle;
 public class FollowedC implements Initializable {
 
     private List<PostDao> posts;
+
+    List<User> followed = Data.principalUser.getFollowed();
+
+    private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
 
     @FXML
     private Label nickname;
@@ -82,19 +93,37 @@ public class FollowedC implements Initializable {
         nickname.setText(Data.aux.getName());
         loadUserPosts();
 
-        //followedTable.setItems(observableUsers);
+        followed= Data.principalUser.getFollowed();
+        observableUsers= FXCollections.observableArrayList(followed);
+        followedList();
+        followedTable.setItems(FXCollections.observableArrayList(observableUsers));
+        followedTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    Node node = ((Node) event.getTarget()).getParent();
+                    TableRow row;
+                    if (node instanceof TableRow) {
+                        row = (TableRow) node;
 
-        //followedList();
-        //refresh();
+                    } else {
+                        // clicking on text part
+                        row = (TableRow) node.getParent();
+                    }
+                    Data.aux= (UserDao) row.getItem();
+                    App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+                    App.closeScene((Stage) borderPane.getScene().getWindow());
+                }
+            }
+        });
 
-
+        refresh();
 
         Platform.runLater(()->{
             Windows.closeRequest((Stage) borderPane.getScene().getWindow());
         });
     }
 
-    /*
     public void followedList(){
         followedColumn.setCellValueFactory(follower ->{
             SimpleStringProperty ssp = new SimpleStringProperty();
@@ -102,8 +131,6 @@ public class FollowedC implements Initializable {
             return ssp;
         });
     }
-
-     */
 
     public void loadUserPosts(){
         posts = new ArrayList<>(Userposts());
@@ -182,5 +209,10 @@ public class FollowedC implements Initializable {
         }else{
             App.loadScene(new Stage(), fxml, "redSocial", true, false);
         }
+    }
+
+    public void refresh() {
+        observableUsers.removeAll(observableUsers);
+        observableUsers.addAll(followed);
     }
 }

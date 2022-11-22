@@ -91,10 +91,6 @@ public class ProfileC implements Initializable {
 
         nickname.setText(Data.principalUser.getName());
         loadUserPosts();
-        //followedTable.setItems(observableUsers);
-
-        //followedList();
-        //refresh();
 
         followed= Data.principalUser.getFollowed();
         observableUsers= FXCollections.observableArrayList(followed);

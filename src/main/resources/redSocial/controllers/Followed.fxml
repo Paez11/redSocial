@@ -17,18 +17,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.FollowedC">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.FollowedC">
     <left>
-        <VBox prefHeight="600.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <VBox prefHeight="600.0" prefWidth="150.0" styleClass="menuColor" BorderPane.alignment="CENTER">
             <children>
                 <ImageView fitHeight="69.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                     <VBox.margin>
                         <Insets left="40.0" top="20.0" />
                     </VBox.margin>
+               <image>
+                  <Image url="@../../icons/logo.png" />
+               </image>
                 </ImageView>
                 <VBox prefHeight="568.0" prefWidth="150.0">
                     <children>
-                        <Button fx:id="homeBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="home" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="homeBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="home" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -46,7 +49,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Button>
-                        <Button fx:id="searchBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="search" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="searchBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="search" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -64,7 +67,7 @@
                                 <Insets left="20.0" top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="newBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="new" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="newBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="new" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -82,7 +85,7 @@
                                 <Insets left="20.0" top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="configBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="configuration" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="configBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="configuration" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -100,7 +103,7 @@
                                 <Insets left="20.0" top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="profileBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="profile" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="profileBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="profile" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -118,7 +121,7 @@
                                 <Insets left="20.0" top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="logoutBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" style="-fx-background-color: none;" text="Log out" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                        <Button fx:id="logoutBtn" contentDisplay="TOP" ellipsisString="" mnemonicParsing="false" onAction="#switchPane" prefHeight="71.0" prefWidth="103.0" styleClass="menuButton" text="Log out" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -155,7 +158,7 @@
                     <children>
                         <HBox prefHeight="76.0" prefWidth="499.0">
                             <children>
-                                <ImageView fx:id="profileImage" fitHeight="70.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="profileImage" fitHeight="70.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-photo">
                                     <image>
                                         <Image url="@../../icons/user.png" />
                                     </image>
@@ -171,7 +174,7 @@
                                         <Insets left="50.0" top="25.0" />
                                     </HBox.margin>
                                 </Label>
-                                <Button fx:id="Followbtn" alignment="CENTER" mnemonicParsing="false" onAction="#FollowUser" prefHeight="32.0" prefWidth="62.0" text="Follow">
+                                <Button fx:id="Followbtn" alignment="CENTER" mnemonicParsing="false" onAction="#FollowUser" prefHeight="32.0" prefWidth="85.0" styleClass="selectButton" text="Follow">
                                     <HBox.margin>
                                         <Insets left="20.0" top="25.0" />
                                     </HBox.margin>
@@ -182,6 +185,9 @@
                             </VBox.margin>
                         </HBox>
                     </children>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
                 </VBox>
                 <ScrollPane prefHeight="500.0" prefWidth="499.0">
                     <content>
