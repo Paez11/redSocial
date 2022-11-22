@@ -149,10 +149,10 @@ public class PostDao extends Post implements Dao {
                     if(rs.next()) {
                         id=rs.getInt(1);
                         userName = user.getById(rs.getInt("id_user"));
-                        this.dateCreate = rs.getDate("fecha_creacion");
-                        this.dateUpdate = rs.getDate("fecha_modificacion");
-                        this.text = rs.getString("texto");
-                        this.comments = (List<Comment>) comments.getById(rs.getInt(1));
+                        post.dateCreate = rs.getDate("fecha_creacion");
+                        post.dateUpdate = rs.getDate("fecha_modificacion");
+                        post.text = rs.getString("texto");
+                        //post.comments = (List<Comment>) comments.getById(rs.getInt(1));
                     }
                 }
                 ps.close();
