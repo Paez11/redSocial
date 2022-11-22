@@ -17,8 +17,7 @@ public class CommentC {
     private Label date;
 
     public void setData(Comment comment){
-        CommentDao cd = new CommentDao();
-        cd= (CommentDao) new CommentDao().getById(comment.getId());
+        CommentDao cd= (CommentDao) new CommentDao().getById(comment.getId());
         UserDao ud= new UserDao(cd.getUserComment());
         name.setText(ud.getName());
         comment2.setText(comment.getTextComment());

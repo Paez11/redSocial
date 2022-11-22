@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="822.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
    <left>
       <VBox prefHeight="600.0" prefWidth="150.0" styleClass="menuColor" BorderPane.alignment="CENTER">
          <children>
@@ -147,7 +147,7 @@
       </VBox>
    </left>
    <right>
-      <TableView fx:id="followedTable" prefHeight="600.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="followedTable" prefHeight="600.0" prefWidth="154.0" BorderPane.alignment="CENTER">
          <columns>
             <TableColumn fx:id="followedColumn" maxWidth="150.0" minWidth="20.0" prefWidth="150.0" text="siguiendo" />
          </columns>
