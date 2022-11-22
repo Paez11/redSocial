@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -35,7 +36,7 @@ public class PostC implements Initializable {
     private Label editLabel;
 
     @FXML
-    private Button likes;
+    private ToggleButton likes;
 
     @FXML
     private Button comments;
