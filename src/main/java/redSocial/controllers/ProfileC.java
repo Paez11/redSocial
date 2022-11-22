@@ -2,28 +2,41 @@ package redSocial.controllers;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
-import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import redSocial.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import redSocial.DAO.PostDao;
+import redSocial.DAO.UserDao;
+import redSocial.model.User;
+import redSocial.utils.Log;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileC implements Initializable {
 
-    //List<User> followed = Data.principalUser.getFollowed();
+    private List<PostDao> posts;
+    List<User> followed = Data.principalUser.getFollowed();
 
-    //private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
+    private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
 
     @FXML
     private TextField nickname;
@@ -69,26 +82,47 @@ public class ProfileC implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private GridPane gridPane = null;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nickname.setText(Data.principalUser.getName());
+        loadUserPosts();
 
-        //followedTable.setItems(observableUsers);
+        followed= Data.principalUser.getFollowed();
+        observableUsers= FXCollections.observableArrayList(followed);
+        followedList();
+        followedTable.setItems(FXCollections.observableArrayList(observableUsers));
+        refresh();
 
-        //followedList();
-        //refresh();
-
-
+        followedTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    Node node = ((Node) event.getTarget()).getParent();
+                    TableRow row;
+                    if (node instanceof TableRow) {
+                        row = (TableRow) node;
+                    } else {
+                        // clicking on text part
+                        row = (TableRow) node.getParent();
+                    }
+                    Data.aux= (UserDao) row.getItem();
+                    App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+                    App.closeScene((Stage) borderPane.getScene().getWindow());
+                }
+            }
+        });
 
         Platform.runLater(()->{
             Windows.closeRequest((Stage) borderPane.getScene().getWindow());
         });
     }
 
-    /*
+
     public void followedList(){
         followedColumn.setCellValueFactory(follower ->{
             SimpleStringProperty ssp = new SimpleStringProperty();
@@ -97,7 +131,36 @@ public class ProfileC implements Initializable {
         });
     }
 
-     */
+
+
+    public void loadUserPosts(){
+        posts = new ArrayList<>(Userposts());
+        int columns = 0;
+        int row = 1;
+        try {
+            for (int i = 0; i < posts.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Post.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                PostC post = fxmlLoader.getController();
+                post.setDataPost(posts.get(i));
+                if(columns == 1) {
+                    columns = 0;
+                    ++row;
+                }
+                gridPane.add(anchorPane, columns++, row);
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException e) {
+            Log.severe("Error al cargar los posts "+e.getMessage());
+        }
+    }
+
+    private List<PostDao> Userposts() {
+        List<PostDao> ls = PostDao.getAllByUser(Data.principalUser.getId());
+
+        return ls;
+    }
 
     public void editNickName(ActionEvent event){
         String newNickName = "";
@@ -143,11 +206,11 @@ public class ProfileC implements Initializable {
     }
 
 
-    /*
+
     public void refresh() {
         observableUsers.removeAll(observableUsers);
         observableUsers.addAll(followed);
     }
-    */
+
 }
 

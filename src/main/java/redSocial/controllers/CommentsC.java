@@ -3,14 +3,20 @@ package redSocial.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import redSocial.DAO.CommentDao;
 import redSocial.DAO.PostDao;
 import redSocial.model.Comment;
 import redSocial.model.User;
+import redSocial.utils.Log;
+import redSocial.utils.Windows;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,11 +31,21 @@ public class CommentsC  implements Initializable {
     private Label nickname;
     @FXML
     private TextArea CommentText;
+    @FXML
+    private Button publish;
+    @FXML
+    private Button back;
+    @FXML
+    private AnchorPane anchorPane;
 
     private List<Comment> comments;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadComments();
+    }
+
+    public void loadComments(){
         comments= new ArrayList<>(comments());
         int columns=0;
         int rows=1;
@@ -38,23 +54,38 @@ public class CommentsC  implements Initializable {
             for (int i = 0; i < comments.size(); i++){
                 FXMLLoader fxmlLoader= new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("Comment.fxml"));
-                VBox box = fxmlLoader.load();
+                AnchorPane anchorPane = fxmlLoader.load();
                 CommentC commentC= fxmlLoader.getController();
                 commentC.setData(comments.get(i));
+                if(columns == 1) {
+                    columns = 0;
+                    ++rows;
+                }
+                commentGrid.add(anchorPane, columns++, rows);
+                commentGrid.setMargin(anchorPane, new Insets(10));
             }
 
         }catch (IOException e){
-            e.printStackTrace();
+            Log.severe("Error al cargar los comentarios"+e.getMessage());
         }
     }
 
-    private List<Comment> comments(){
-        User u=Data.principalUser;
-        PostDao p= Data.p;
+    @FXML
+    private void publishComment(){
         CommentDao cd = new CommentDao();
-        List<Comment> lc = new ArrayList<>();
-        lc=cd.getAllByPost(p);
+        cd.setTextComment(CommentText.getText());
+        cd.setUserComment(Data.principalUser);
+        cd.setPost(Data.p);
+        cd.save();
+    }
 
-        return lc;
+    private List<CommentDao> comments(){
+        List<CommentDao> ls = CommentDao.getAllByPost(Data.p);
+
+        return ls;
+    }
+
+    public void back(){
+        App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
 }

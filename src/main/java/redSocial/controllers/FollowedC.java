@@ -12,38 +12,46 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import redSocial.DAO.FollowDao;
 import redSocial.DAO.PostDao;
 import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
-import redSocial.utils.contador.Counter;
-import redSocial.utils.contador.Increment;
-import redSocial.utils.contador.Read;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class HomeC implements Initializable {
-
-    Counter c = new Counter();
-
-    Thread inc = new Increment(c);
-    Thread read = new Read(c);
+public class FollowedC implements Initializable {
 
     private List<PostDao> posts;
+
     List<User> followed = Data.principalUser.getFollowed();
 
     private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
+
+    @FXML
+    private Label nickname;
+
+    @FXML
+    private PasswordField password;
+
+    @FXML
+    private ImageView profileImage;
+
+    @FXML
+    private Button Followbtn;
+
 
     @FXML
     private Button homeBtn;
@@ -64,9 +72,6 @@ public class HomeC implements Initializable {
     private Button configBtn;
 
     @FXML
-    private Button loadMore;
-
-    @FXML
     private TableView<User> followedTable;
 
     @FXML
@@ -74,26 +79,22 @@ public class HomeC implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private AnchorPane anchorPane;
 
-    @FXML
-    private VBox pnItems = null;
-    @FXML
-    private GridPane gridPane = null;
-
-    @FXML
-    private Label contadorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //followedTable.setItems(observableUsers);
-
-        inc.setDaemon(true);
-        read.setDaemon(true);
-
-        loadPosts();
+        if (Data.principalUser.getFollowed().contains(Data.aux)){
+            Followbtn.setText("UnFollow");
+        }
+        nickname.setText(Data.aux.getName());
+        loadUserPosts();
 
         followed= Data.principalUser.getFollowed();
-        observableUsers=FXCollections.observableArrayList(followed);
+        observableUsers= FXCollections.observableArrayList(followed);
         followedList();
         followedTable.setItems(FXCollections.observableArrayList(observableUsers));
         followedTable.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -131,25 +132,8 @@ public class HomeC implements Initializable {
         });
     }
 
-    @FXML
-    public void Contador(){
-
-        inc.start();
-        read.start();
-
-        if (read.isAlive()){
-            contadorLabel.setText(String.valueOf(c.getVal()));
-        }
-
-    }
-    private List<PostDao> posts() {
-        List<PostDao> ls = PostDao.getAll();
-
-        return ls;
-    }
-
-    public void loadPosts(){
-        posts = new ArrayList<>(posts());
+    public void loadUserPosts(){
+        posts = new ArrayList<>(Userposts());
         int columns = 0;
         int row = 1;
         try {
@@ -171,10 +155,11 @@ public class HomeC implements Initializable {
         }
     }
 
-    public void refreshPosts(){
+    private List<PostDao> Userposts() {
+        List<PostDao> ls = PostDao.getAllByUser(Data.aux.getId());
 
+        return ls;
     }
-
 
     public void switchPane(ActionEvent event){
         Object source = event.getSource();
@@ -186,12 +171,34 @@ public class HomeC implements Initializable {
             go("CreatePost",false);
         } else if (logoutBtn.equals(source)) {
             go("LogIn",true);
-            inc.stop();
-            read.stop();
         } else if (searchBtn.equals(source)) {
             Windows.mostrarAlerta("Error", "SearchBar", "No implementado");
         } else if (configBtn.equals(source)) {
             Windows.mostrarAlerta("Error", "Configuration", "No implementado");
+        }
+    }
+
+    @FXML
+    public void FollowUser(){
+        if (Followbtn.getText().equals("Follow")){
+            if (!Data.principalUser.getFollowed().contains(Data.aux)){
+                Data.principalUser.getFollowed().add(Data.aux);
+                FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
+                fd.save();
+                Followbtn.setText("UnFollow");
+            }
+        }else if (Followbtn.getText().equals("UnFollow")){
+            if (Data.principalUser.getFollowed().contains(Data.aux)){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Dejar de Seguir");
+                alert.setHeaderText("¿Estas seguro?");
+                alert.setContentText("¿Estas seguro de que quieres dejar de seguir a este usuario?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    FollowDao fd= new FollowDao(Data.principalUser, Data.aux);
+                    fd.deletebyusers(Data.principalUser, Data.aux);
+                }
+            }
         }
     }
 

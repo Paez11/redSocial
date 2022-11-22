@@ -98,9 +98,9 @@ public class UserDao extends User implements Dao {
         }
     }
 
-    protected User getById(int id){
+    public User getById(int id){
         UserDao user = new UserDao(id,name,password,avatar);
-        if (id==-1){
+        if (id!=-1){
             con = Connect.getConnect();
             if (con != null){
                 PreparedStatement st = null;
@@ -110,10 +110,10 @@ public class UserDao extends User implements Dao {
                     if (st.execute()){
                         ResultSet rs = st.getResultSet();
                         if (rs.next()){
-                            id=rs.getInt(1);
-                            this.name = rs.getString("name");
-                            this.password = rs.getString("password");
-                            this.avatar = rs.getString("avatar");
+                            user.id=rs.getInt(1);
+                            user.name = rs.getString("name");
+                            user.password = rs.getString("password");
+                            user.avatar = rs.getString("avatar");
                         }
                         rs.close();
                     }
@@ -137,7 +137,7 @@ public class UserDao extends User implements Dao {
                 if (st.execute()){
                     ResultSet rs = st.getResultSet();
                     if (rs.next()){
-                        name=rs.getString(1);
+                        this.name=rs.getString("name");
                         this.id = rs.getInt("id");
                         this.password = rs.getString("password");
                         this.avatar = rs.getString("avatar");
@@ -149,6 +149,10 @@ public class UserDao extends User implements Dao {
                 Log.severe("Error al obtener usuario: " + e.getMessage());
             }
         }
+        user.setName(this.name);
+        user.setId(this.id);
+        user.setPassword(this.password);
+        user.setAvatar(this.avatar);
         return user;
     }
 

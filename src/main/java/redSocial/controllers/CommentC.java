@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import redSocial.model.Comment;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class CommentC {
@@ -17,6 +18,7 @@ public class CommentC {
     public void setData(Comment comment){
         name.setText(comment.getUserComment().getName());
         comment2.setText(comment.getTextComment());
-        date.setText(String.valueOf(LocalDate.now()));
+        String format = new SimpleDateFormat("dd/MM/yyyy").format(comment.getDate());
+        date.setText(format);
     }
 }
