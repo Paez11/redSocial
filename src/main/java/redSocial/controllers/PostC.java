@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -61,6 +62,7 @@ public class PostC implements Initializable {
         UserDao aux2 = new UserDao();
         aux2 = (UserDao) aux2.getById(p.getUserName().getId());
         username.setText(aux2.getName());
+        //profileImage.setImage(new Image(aux2.getAvatar()));
         content.setText(p.getText());
         String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
         date.setText(format);

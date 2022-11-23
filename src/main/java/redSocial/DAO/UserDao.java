@@ -13,7 +13,7 @@ public class UserDao extends User implements Dao {
 
     private final static String INSERT = "INSERT INTO user(id,name,password,avatar) VALUES (NULL,?,?,NULL)";
     private final static String DELETE = "DELETE FROM user WHERE id=?";
-    private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? FROM user WHERE id=?";
+    private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? WHERE id=?";
     private final static String SELECTBYID = "SELECT id,name,password,avatar FROM user WHERE id=?";
     private final static String SELECTBYNAME = "SELECT id,name,password,avatar FROM user WHERE name=?";
     private final static String SELECTALL = "SELECT id,name,avatar FROM user";
@@ -112,6 +112,10 @@ public class UserDao extends User implements Dao {
                             user.name = rs.getString("name");
                             user.password = rs.getString("password");
                             user.avatar = rs.getString("avatar");
+                            //Blob imageBlob = rs.getBlob("avatar");
+                            //byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
+                            //user.avatar = new String(bdata);
+
                         }
                         rs.close();
                     }
@@ -139,6 +143,10 @@ public class UserDao extends User implements Dao {
                         this.id = rs.getInt("id");
                         this.password = rs.getString("password");
                         this.avatar = rs.getString("avatar");
+                        //Blob imageBlob = rs.getBlob("avatar");
+                        //byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
+                        //user.avatar = new String(bdata);
+
                     }
                     rs.close();
                 }
@@ -164,8 +172,10 @@ public class UserDao extends User implements Dao {
                 if (st.execute()){
                     ResultSet rs = st.getResultSet();
                     while (rs.next()){
+                        Blob imageBlob = rs.getBlob("avatar");
                         User u = new User(rs.getInt("id"),rs.getString("name"),
-                                rs.getString("avatar"));
+                                    rs.getString("avatar"));
+                                    //String.valueOf(imageBlob.getBytes(0, (int) imageBlob.length())));
                         users.add(u);
                     }
                     rs.close();

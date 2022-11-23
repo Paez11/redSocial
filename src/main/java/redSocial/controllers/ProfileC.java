@@ -12,11 +12,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import redSocial.DAO.PostDao;
 import redSocial.DAO.UserDao;
@@ -25,7 +27,7 @@ import redSocial.utils.Log;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,15 @@ public class ProfileC implements Initializable {
 
     private List<PostDao> posts;
     List<User> followed = Data.principalUser.getFollowed();
+    List<String> pstFile;
 
     private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
 
     @FXML
     private TextField nickname;
+
+    @FXML
+    private TextField photoText;
 
     @FXML
     private PasswordField password;
@@ -90,6 +96,8 @@ public class ProfileC implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nickname.setText(Data.principalUser.getName());
+        //profileImage.setImage(new Image(Data.principalUser.getAvatar()));
+        photoText.setVisible(false);
         loadUserPosts();
 
         followed= Data.principalUser.getFollowed();
@@ -163,20 +171,38 @@ public class ProfileC implements Initializable {
     }
 
     public void editNickName(ActionEvent event){
-        String newNickName = "";
-        Data.principalUser.update();
+        String newNickName = nickname.getText();
         nickname.setText(newNickName);
+        Data.principalUser.setName(newNickName);
+        Data.principalUser.update();
+        Windows.mostrarInfo("editNickName","NickName","NickName editado correctamente");
     }
 
     public void editPassword(ActionEvent event){
-        String newPassword = "";
-        newPassword = Valid.sha256(String.valueOf(password));
-        Data.principalUser.update();
+        String newPassword = password.getText();
         password.setText(newPassword);
+        newPassword = Valid.sha256(newPassword);
+        Data.principalUser.setPassword(newPassword);
+        Data.principalUser.update();
+        Windows.mostrarInfo("editPassword","Password","Password editada correctamente");
     }
 
     public void editPhoto(ActionEvent event){
+        photoText.setDisable(true);
 
+        pstFile = new ArrayList<>();
+        pstFile.add("*.png");
+        pstFile.add("*.jpg");
+        pstFile.add("*.jpeg");
+
+        try {
+            photoFileChooser();
+        } catch (IOException e) {
+            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
+        }
+        Data.principalUser.setAvatar(photoText.getText());
+        Data.principalUser.update();
+        Windows.mostrarInfo("editPhoto","Photo","Photo editada correctamente");
     }
 
     public void switchPane(ActionEvent event){
@@ -210,6 +236,45 @@ public class ProfileC implements Initializable {
     public void refresh() {
         observableUsers.removeAll(observableUsers);
         observableUsers.addAll(followed);
+    }
+
+    public void photoFileChooser() throws IOException {
+
+        photoText.setDisable(true);
+
+        pstFile = new ArrayList<>();
+        pstFile.add("*.png");
+        pstFile.add("*.jpg");
+        pstFile.add("*.jpeg");
+
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
+        File f = fc.showOpenDialog(null);
+        File destiny = new File("src\\main\\resources\\images\\"+f.getName());
+        InputStream in = new FileInputStream(f);
+        OutputStream out = new FileOutputStream(destiny);
+
+        if(f != null){
+            photoText.setText(destiny.getAbsolutePath());
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        }else {
+            photoText.setText("src\\main\\resources\\images\\"+Data.principalUser.getAvatar());
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        }
+        Image image = new Image(destiny.toURI().toString());
+        profileImage.setImage(image);
+        in.close();
+        out.close();
     }
 
 }
