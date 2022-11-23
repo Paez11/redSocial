@@ -5,6 +5,8 @@ import redSocial.model.User;
 import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.List;
 
@@ -49,9 +51,9 @@ public class UserDao extends User implements Dao {
         con = Connect.getConnect();
         Blob imageBlob = null;
         try {
-            imageBlob.setBytes(1,this.avatar);
+            imageBlob = new SerialBlob(this.avatar);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
         }
         if (con != null){
             PreparedStatement st = null;
@@ -89,11 +91,7 @@ public class UserDao extends User implements Dao {
         con = Connect.getConnect();
 
         Blob imageBlob = null;
-        try {
-            imageBlob.setBytes(1,this.avatar);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
         if (con != null){
             PreparedStatement st = null;
             try {
@@ -101,7 +99,12 @@ public class UserDao extends User implements Dao {
                 st.setInt(4,this.id);
                 st.setString(1,name);
                 st.setString(2,password);
-                st.setBlob(3,imageBlob);
+                try {
+                    imageBlob = new SerialBlob(this.avatar);
+                } catch (SQLException e) {
+                    Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
+                }
+                st.setBlob(3, imageBlob);
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
