@@ -8,8 +8,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import redSocial.DAO.PostDao;
+import redSocial.utils.Windows;
 
 import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class UpdatePostC implements Initializable {
@@ -32,9 +35,13 @@ public class UpdatePostC implements Initializable {
     }
 
     public void update(ActionEvent actionEvent) {
-        Data.paux.setText(content.getText());
-        Data.paux.update();
-        App.closeScene((Stage) anchorPane.getScene().getWindow());
+        if (content.getText().isEmpty()) {
+            Windows.mostrarAlerta("Error", "Error", "El post no puede estar vacio");
+        }else {
+            Data.paux.setText(content.getText());
+            Data.paux.update();
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
+        }
     }
 
     public void cancel(ActionEvent actionEvent) {

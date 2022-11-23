@@ -29,6 +29,7 @@ import redSocial.utils.Windows;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -96,7 +97,7 @@ public class ProfileC implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nickname.setText(Data.principalUser.getName());
-        //profileImage.setImage(new Image(Data.principalUser.getAvatar()));
+        profileImage.setImage(new Image(new ByteArrayInputStream(Data.principalUser.getAvatar())));
         photoText.setVisible(false);
         loadUserPosts();
 
@@ -194,15 +195,16 @@ public class ProfileC implements Initializable {
         pstFile.add("*.png");
         pstFile.add("*.jpg");
         pstFile.add("*.jpeg");
+        pstFile.add("*.gif");
 
-        try {
-            photoFileChooser();
-        } catch (IOException e) {
-            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
+        if (photoFileChooser()){
+            Data.principalUser.setAvatar(photoText.getText().getBytes());
+            Data.principalUser.update();
+            Windows.mostrarInfo("editPhoto","foto","foto editada correctamente");
+        }else {
+            Windows.mostrarInfo("photoFileChooser","foto","No se ha seleccionado ninguna foto");
         }
-        Data.principalUser.setAvatar(photoText.getText());
-        Data.principalUser.update();
-        Windows.mostrarInfo("editPhoto","Photo","Photo editada correctamente");
+
     }
 
     public void switchPane(ActionEvent event){
@@ -238,8 +240,8 @@ public class ProfileC implements Initializable {
         observableUsers.addAll(followed);
     }
 
-    public void photoFileChooser() throws IOException {
-
+    public boolean photoFileChooser(){
+        boolean result = false;
         photoText.setDisable(true);
 
         pstFile = new ArrayList<>();
@@ -247,35 +249,21 @@ public class ProfileC implements Initializable {
         pstFile.add("*.jpg");
         pstFile.add("*.jpeg");
 
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
-        File f = fc.showOpenDialog(null);
-        File destiny = new File("src\\main\\resources\\images\\"+f.getName());
-        InputStream in = new FileInputStream(f);
-        OutputStream out = new FileOutputStream(destiny);
-
-        if(f != null){
-            photoText.setText(destiny.getAbsolutePath());
-            byte[] buf = new byte[1024];
-            int len;
-
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+        try{
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
+            File f = fc.showOpenDialog(null);
+            if (f != null){
+                Files.readAllBytes(f.toPath());
+                byte[] bytes = Files.readAllBytes(f.toPath());
+                Image image = new Image(new ByteArrayInputStream(bytes));
+                profileImage.setImage(image);
+                result = true;
             }
-        }else {
-            photoText.setText("src\\main\\resources\\images\\"+Data.principalUser.getAvatar());
-            byte[] buf = new byte[1024];
-            int len;
-
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
+        }catch (Exception e){
+            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
         }
-        Image image = new Image(destiny.toURI().toString());
-        profileImage.setImage(image);
-        in.close();
-        out.close();
+        return result;
     }
-
 }
 

@@ -21,7 +21,7 @@ public class CommentDao extends Comment implements Dao {
     private final static String DELETE = "DELETE FROM comments WHERE id=?";
     private final static String UPDATE = "UPDATE comments SET texto=?, fecha=? WHERE id=? FROM comments";
     private final static String SELECTBYID = "SELECT id,id_user,texto,id_post,fecha FROM comments WHERE id=?";
-    private final static String SELECTBYUSERPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_user=? and id_post=?";
+    private final static String SELECTBYUSERPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_user=? and id_post=? ORDER BY fecha DESC";
     private final static String SELECTBYPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_post=? ORDER BY fecha DESC";
 
 

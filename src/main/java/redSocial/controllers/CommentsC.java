@@ -73,10 +73,14 @@ public class CommentsC  implements Initializable {
     @FXML
     private void publishComment(){
         CommentDao cd = new CommentDao();
-        cd.setTextComment(CommentText.getText());
-        cd.setUserComment(Data.principalUser);
-        cd.setPost(Data.p);
-        cd.save();
+        if (!CommentText.getText().isEmpty()) {
+            cd.setTextComment(CommentText.getText());
+            cd.setUserComment(Data.principalUser);
+            CommentText.clear();
+            cd.setPost(Data.p);
+            cd.save();
+            refreshComments();
+        }
     }
 
     private List<CommentDao> comments(){
@@ -85,7 +89,13 @@ public class CommentsC  implements Initializable {
         return ls;
     }
 
+    public void refreshComments(){
+        commentGrid.getChildren().clear();
+        loadComments();
+    }
+
     public void back(){
         App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
+
 }

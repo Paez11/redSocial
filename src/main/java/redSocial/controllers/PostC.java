@@ -13,6 +13,7 @@ import redSocial.DAO.PostDao;
 import redSocial.DAO.UserDao;
 import redSocial.utils.Windows;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
@@ -54,7 +55,6 @@ public class PostC implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //setDataPost(p);
         editLabel.setVisible(false);
     }
 
@@ -62,10 +62,17 @@ public class PostC implements Initializable {
         UserDao aux2 = new UserDao();
         aux2 = (UserDao) aux2.getById(p.getUserName().getId());
         username.setText(aux2.getName());
-        //profileImage.setImage(new Image(aux2.getAvatar()));
+        profileImage.setImage(new Image(new ByteArrayInputStream(aux2.getAvatar())));
         content.setText(p.getText());
-        String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
-        date.setText(format);
+
+        if (p.getDateUpdate()!=null){
+            String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateUpdate());
+            date.setText(format);
+            editLabel.setVisible(true);
+        }else {
+            String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateCreate());
+            date.setText(format);
+        }
         this.p = p;
         if (Data.principalUser.getId()==p.getUserName().getId()) {
             delete.setVisible(true);
@@ -86,6 +93,7 @@ public class PostC implements Initializable {
 
     public void updatePost(){
         if (Data.principalUser.getId()==p.getUserName().getId()){
+            Data.paux = p;
             App.loadScene(new Stage(), "UpdatePost", "RedSocial", true, false);
         }else {
             Windows.mostrarAlerta("ERROR","ERROR","No puedes editar este post");

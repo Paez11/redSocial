@@ -7,7 +7,7 @@ public class User {
     protected int id;
     protected String name;
     protected String password;
-    protected String avatar;
+    protected byte[] avatar;
     protected List<Post> posts;
     protected List<Comment> comments;
     protected List<Post> likes;
@@ -27,7 +27,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String name, String avatar) {
+    public User(int id, String name, byte[] avatar) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
@@ -39,7 +39,7 @@ public class User {
         this.posts = posts;
     }
 
-    public User(int id, String name, String avatar, List<Post> posts, List<Post> likes) {
+    public User(int id, String name, byte[] avatar, List<Post> posts, List<Post> likes) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
@@ -47,28 +47,28 @@ public class User {
         this.likes = likes;
     }
 
-    public User(int id, String name, String avatar, List<Comment> comments) {
+    public User(int id, String name, byte[] avatar, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.comments = comments;
     }
 
-    public User(int id, String name, String password, String avatar) {
+    public User(int id, String name, String password, byte[] avatar) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String name, String avatar, List<User> followed, List<User> follower) {
+    public User(String name, byte[] avatar, List<User> followed, List<User> follower) {
         this.name = name;
         this.avatar = avatar;
         this.followed = followed;
         this.follower = follower;
     }
 
-    public User(int id, String name, String password, String avatar,
+    public User(int id, String name, String password, byte[] avatar,
                 List<Post> posts, List<Comment> comments, List<Post> likes,
                 List<User> followed, List<User> follower) {
         this.id = id;
@@ -106,11 +106,11 @@ public class User {
         this.password = password;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 
