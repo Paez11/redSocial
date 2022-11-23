@@ -195,15 +195,16 @@ public class ProfileC implements Initializable {
         pstFile.add("*.png");
         pstFile.add("*.jpg");
         pstFile.add("*.jpeg");
+        pstFile.add("*.gif");
 
-        try {
-            photoFileChooser();
-        } catch (IOException e) {
-            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
+        if (photoFileChooser()){
+            Data.principalUser.setAvatar(photoText.getText().getBytes());
+            Data.principalUser.update();
+            Windows.mostrarInfo("editPhoto","foto","foto editada correctamente");
+        }else {
+            Windows.mostrarInfo("photoFileChooser","foto","No se ha seleccionado ninguna foto");
         }
-        Data.principalUser.setAvatar(photoText.getText().getBytes());
-        Data.principalUser.update();
-        Windows.mostrarInfo("editPhoto","Photo","Photo editada correctamente");
+
     }
 
     public void switchPane(ActionEvent event){
@@ -239,8 +240,8 @@ public class ProfileC implements Initializable {
         observableUsers.addAll(followed);
     }
 
-    public void photoFileChooser() throws IOException {
-
+    public boolean photoFileChooser(){
+        boolean result = false;
         photoText.setDisable(true);
 
         pstFile = new ArrayList<>();
@@ -248,15 +249,21 @@ public class ProfileC implements Initializable {
         pstFile.add("*.jpg");
         pstFile.add("*.jpeg");
 
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
-        File f = fc.showOpenDialog(null);
-        Files.readAllBytes(f.toPath());
-        byte[] bytes = Files.readAllBytes(f.toPath());
-        Image image = new Image(new ByteArrayInputStream(bytes));
-        profileImage.setImage(image);
-
+        try{
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
+            File f = fc.showOpenDialog(null);
+            if (f != null){
+                Files.readAllBytes(f.toPath());
+                byte[] bytes = Files.readAllBytes(f.toPath());
+                Image image = new Image(new ByteArrayInputStream(bytes));
+                profileImage.setImage(image);
+                result = true;
+            }
+        }catch (Exception e){
+            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
+        }
+        return result;
     }
-
 }
 

@@ -1,7 +1,10 @@
 package redSocial.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import redSocial.DAO.CommentDao;
 import redSocial.DAO.UserDao;
 import redSocial.model.Comment;
@@ -9,6 +12,13 @@ import redSocial.model.Comment;
 import java.text.SimpleDateFormat;
 
 public class CommentC {
+
+    private CommentDao c;
+
+    @FXML
+    protected static Button profilePhotoComment;
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private Label name;
     @FXML
@@ -23,5 +33,18 @@ public class CommentC {
         comment2.setText(comment.getTextComment());
         String format = new SimpleDateFormat("dd/MM/yyyy").format(comment.getDate());
         date.setText(format);
+        this.c=cd;
+    }
+
+    public void switchProfile(){
+        Data.aux= (UserDao) this.c.getUserComment();
+        Data.caux = this.c;
+        if (Data.principalUser.getId()==Data.aux.getId()) {
+            App.loadScene(new Stage(), "Profile", "RedSocial", false, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
+        }else{
+            App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
+        }
     }
 }

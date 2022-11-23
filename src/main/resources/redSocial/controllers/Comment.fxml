@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="520.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.CommentC">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="520.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.CommentC">
     <children>
-        <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="72.0" styleClass="profileButton">
+        <Button fx:id="profilePhotoComment" mnemonicParsing="false" onAction="#switchProfile" prefHeight="70.0" prefWidth="72.0" styleClass="profileButton">
             <graphic>
                 <ImageView fitHeight="45.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -36,7 +36,7 @@
         <Label fx:id="date" layoutX="405.0" layoutY="15.0" prefHeight="20.0" prefWidth="111.0" text="Fecha" />
     </children>
    <styleClass>
-      <String fx:value="commentColor" />
+      <String fx:value="postColor" />
       <String fx:value="comment" />
    </styleClass>
 </AnchorPane>
