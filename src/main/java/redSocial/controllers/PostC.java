@@ -98,8 +98,13 @@ public class PostC implements Initializable {
     public void switchProfile(){
         Data.aux= (UserDao) this.p.getUserName();
         Data.p = this.p;
-        App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
-        App.closeScene((Stage) anchorPane.getScene().getWindow());
+        if (Data.principalUser.getId()==Data.aux.getId()) {
+            App.loadScene(new Stage(), "Profile", "RedSocial", false, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
+        }else{
+            App.loadScene(new Stage(), "Followed", "RedSocial", false, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
+        }
     }
 
 

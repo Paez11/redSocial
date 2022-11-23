@@ -21,8 +21,6 @@ public class UserDao extends User implements Dao {
     private final static String UNFOLLOW = "DELETE FROM follower WHERE id_follower=? AND id_follow=?";
     private final static String GETFOLLOWS = "SELECT id,name,avatar FROM user WHERE id IN (SELECT id_follow FROM follower WHERE id_follower=?)";
     private final static String GETFOLLOWERS = "SELECT id,name,avatar FROM user WHERE id IN (SELECT id_follower FROM follower WHERE id_follow=?)";
-    //private final static String GETFOLLOWS = "SELECT u.id,u.name,u.avatar FROM user u JOIN follower f ON u.id=f.id_follow WHERE u.id=?";
-    //private final static String GETFOLLOWERS = "SELECT u.id,u.name,u.avatar FROM user u JOIN follower f ON u.id=f.id_follower WHERE u.id=?";
 
     public UserDao(int id, String name){
         super(id,name);
