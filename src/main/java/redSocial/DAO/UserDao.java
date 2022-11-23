@@ -11,7 +11,7 @@ import java.util.List;
 public class UserDao extends User implements Dao {
     private static Connection con = null;
 
-    private final static String INSERT = "INSERT INTO user(id,name,password,avatar) VALUES (NULL,?,?,NULL)";
+    private final static String INSERT = "INSERT INTO user(id,name,password,avatar) VALUES (NULL,?,?,?)";
     private final static String DELETE = "DELETE FROM user WHERE id=?";
     private final static String UPDATE = "UPDATE user SET name=?, password=?, avatar=? WHERE id=?";
     private final static String SELECTBYID = "SELECT id,name,password,avatar FROM user WHERE id=?";
@@ -25,10 +25,10 @@ public class UserDao extends User implements Dao {
     public UserDao(int id, String name){
         super(id,name);
     }
-    public UserDao(int id, String name,String avatar){
+    public UserDao(int id, String name,byte[] avatar){
         super(id,name,avatar);
     }
-    public UserDao(int id, String name,String password,String avatar){
+    public UserDao(int id, String name,String password,byte[] avatar){
         super(id,name,password,avatar);
     }
     public UserDao(String name,String password){
@@ -47,12 +47,19 @@ public class UserDao extends User implements Dao {
     @Override
     public void save() {
         con = Connect.getConnect();
+        Blob imageBlob = null;
+        try {
+            imageBlob.setBytes(1,this.avatar);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (con != null){
             PreparedStatement st = null;
             try {
                 st = con.prepareStatement(INSERT);
                 st.setString(1,this.name);
                 st.setString(2,this.password);
+                st.setBlob(3,imageBlob);
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
@@ -80,6 +87,13 @@ public class UserDao extends User implements Dao {
     @Override
     public void update() {
         con = Connect.getConnect();
+
+        Blob imageBlob = null;
+        try {
+            imageBlob.setBytes(1,this.avatar);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (con != null){
             PreparedStatement st = null;
             try {
@@ -87,7 +101,7 @@ public class UserDao extends User implements Dao {
                 st.setInt(4,this.id);
                 st.setString(1,name);
                 st.setString(2,password);
-                st.setString(3,avatar);
+                st.setBlob(3,imageBlob);
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
@@ -111,10 +125,10 @@ public class UserDao extends User implements Dao {
                             user.id=rs.getInt(1);
                             user.name = rs.getString("name");
                             user.password = rs.getString("password");
-                            user.avatar = rs.getString("avatar");
-                            //Blob imageBlob = rs.getBlob("avatar");
-                            //byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
-                            //user.avatar = new String(bdata);
+                            //user.avatar = rs.getString("avatar");
+                            Blob imageBlob = rs.getBlob("avatar");
+                            byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
+                            user.avatar = bdata;
 
                         }
                         rs.close();
@@ -142,10 +156,10 @@ public class UserDao extends User implements Dao {
                         this.name=rs.getString("name");
                         this.id = rs.getInt("id");
                         this.password = rs.getString("password");
-                        this.avatar = rs.getString("avatar");
-                        //Blob imageBlob = rs.getBlob("avatar");
-                        //byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
-                        //user.avatar = new String(bdata);
+                        //this.avatar = rs.getString("avatar");
+                        Blob imageBlob = rs.getBlob("avatar");
+                        byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
+                        this.avatar = bdata;
 
                     }
                     rs.close();
@@ -173,8 +187,10 @@ public class UserDao extends User implements Dao {
                     ResultSet rs = st.getResultSet();
                     while (rs.next()){
                         Blob imageBlob = rs.getBlob("avatar");
+                        byte[] bdata = imageBlob.getBytes(1, (int) imageBlob.length());
+                        avatar = bdata;
                         User u = new User(rs.getInt("id"),rs.getString("name"),
-                                    rs.getString("avatar"));
+                                rs.getString("avatar").getBytes());
                                     //String.valueOf(imageBlob.getBytes(0, (int) imageBlob.length())));
                         users.add(u);
                     }

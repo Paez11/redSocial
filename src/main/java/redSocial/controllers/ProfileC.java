@@ -29,6 +29,7 @@ import redSocial.utils.Windows;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -96,7 +97,7 @@ public class ProfileC implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         nickname.setText(Data.principalUser.getName());
-        //profileImage.setImage(new Image(Data.principalUser.getAvatar()));
+        profileImage.setImage(new Image(new ByteArrayInputStream(Data.principalUser.getAvatar())));
         photoText.setVisible(false);
         loadUserPosts();
 
@@ -200,7 +201,7 @@ public class ProfileC implements Initializable {
         } catch (IOException e) {
             Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
         }
-        Data.principalUser.setAvatar(photoText.getText());
+        Data.principalUser.setAvatar(photoText.getText().getBytes());
         Data.principalUser.update();
         Windows.mostrarInfo("editPhoto","Photo","Photo editada correctamente");
     }
@@ -250,31 +251,11 @@ public class ProfileC implements Initializable {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
         File f = fc.showOpenDialog(null);
-        File destiny = new File("src\\main\\resources\\images\\"+f.getName());
-        InputStream in = new FileInputStream(f);
-        OutputStream out = new FileOutputStream(destiny);
-
-        if(f != null){
-            photoText.setText(destiny.getAbsolutePath());
-            byte[] buf = new byte[1024];
-            int len;
-
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-        }else {
-            photoText.setText("src\\main\\resources\\images\\"+Data.principalUser.getAvatar());
-            byte[] buf = new byte[1024];
-            int len;
-
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-        }
-        Image image = new Image(destiny.toURI().toString());
+        Files.readAllBytes(f.toPath());
+        byte[] bytes = Files.readAllBytes(f.toPath());
+        Image image = new Image(new ByteArrayInputStream(bytes));
         profileImage.setImage(image);
-        in.close();
-        out.close();
+
     }
 
 }
