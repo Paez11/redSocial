@@ -84,7 +84,7 @@ public class FollowDao extends Follow {
                 st.setInt(1,user.getId());
                 if (st.execute()){
                     ResultSet rs = st.getResultSet();
-                    if (rs.next()){
+                    while (rs.next()){
                         UserDao followed = new UserDao();
                         followed.setId(rs.getInt(1));
                         UserDao add= (UserDao) followed.getById(followed.getId());

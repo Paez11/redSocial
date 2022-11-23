@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="822.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="822.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redSocial.controllers.ProfileC">
    <left>
       <VBox prefHeight="600.0" prefWidth="150.0" styleClass="menuColor" BorderPane.alignment="CENTER">
          <children>
@@ -171,9 +171,14 @@
                               <Insets bottom="2.0" left="5.0" top="2.0" />
                            </HBox.margin>
                         </ImageView>
+                        <TextField fx:id="photoText" onAction="#editPhoto" prefHeight="31.0" prefWidth="237.0">
+                           <HBox.margin>
+                              <Insets left="6.0" top="26.0" />
+                           </HBox.margin>
+                        </TextField>
                         <Button fx:id="photoEditBtn" mnemonicParsing="false" onAction="#editPhoto" prefHeight="32.0" prefWidth="62.0" styleClass="selectButton" text="editar">
                            <HBox.margin>
-                              <Insets left="263.0" top="25.0" />
+                              <Insets left="20.0" top="25.0" />
                            </HBox.margin>
                         </Button>
                      </children>

@@ -14,6 +14,14 @@ public class Windows {
         alert.showAndWait();
     }
 
+    public static void mostrarInfo(String title, String header, String description) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(description);
+        alert.showAndWait();
+    }
+
     public static void closeRequest(Stage stage){
         stage.setOnCloseRequest(windowEvent -> {
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);

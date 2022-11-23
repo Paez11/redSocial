@@ -37,6 +37,7 @@ public class HomeC implements Initializable {
     private List<PostDao> posts;
     List<User> followed = Data.principalUser.getFollowed();
 
+    private int postNumber = 0;
     private ObservableList<User> observableUsers = FXCollections.observableArrayList(followed);
     private String secs;
     private String min;
@@ -85,13 +86,12 @@ public class HomeC implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //followedTable.setItems(observableUsers);
-
 
         Label_Hora.textProperty().bind(c.getFraseHora());
         Label_Minuto.textProperty().bind(c.getFraseMinuto());
         Label_Segundo.textProperty().bind(c.getFraseSegundo());
-        loadPosts();
+
+        loadPosts(postNumber);
 
         followed= Data.principalUser.getFollowed();
         observableUsers=FXCollections.observableArrayList(followed);
@@ -136,12 +136,12 @@ public class HomeC implements Initializable {
         return ls;
     }
 
-    public void loadPosts(){
+    public void loadPosts(int p){
         posts = new ArrayList<>(posts());
         int columns = 0;
         int row = 1;
         try {
-            for (int i = 0; i < posts.size(); i++) {
+            for (int i=p ;i < posts.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("Post.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
@@ -153,6 +153,12 @@ public class HomeC implements Initializable {
                 }
                 gridPane.add(anchorPane, columns++, row);
                 GridPane.setMargin(anchorPane, new Insets(10));
+                ++postNumber;
+                if (i == 2) {
+                    i = posts.size();
+                }else if(loadMore.isPressed()){
+                    refreshPosts();
+                }
             }
         } catch (IOException e) {
             Log.severe("Error al cargar los posts "+e.getMessage());
@@ -160,7 +166,11 @@ public class HomeC implements Initializable {
     }
 
     public void refreshPosts(){
-
+        gridPane.getChildren().clear();
+        loadPosts(postNumber);
+        if(postNumber==posts.size() || postNumber>=posts.size()){
+            Windows.mostrarInfo("No hay más posts", "No hay más posts", "Estos son los ultimos posts");
+        }
     }
 
 
