@@ -1,10 +1,11 @@
-package redSocial.controllers;
+package redSocial;
 
-import static redSocial.controllers.Data.t;
+import redSocial.controllers.App;
+
 
 public class Start {
     public static void main(String[] args) {
         App.main(args);
-        t.stop();
+        System.exit(0);
     }
 }
