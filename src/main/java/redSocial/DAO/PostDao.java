@@ -217,12 +217,6 @@ public class PostDao extends Post implements Dao {
         return posts;
     }
 
-    public List<User> getWhoLikes(){
-        List<User> likes = new ArrayList<>();
-
-        return likes;
-    }
-
     public void saveLike(User u, Post p) {
         Connection con = Connect.getConnect();
         con = Connect.getConnect();

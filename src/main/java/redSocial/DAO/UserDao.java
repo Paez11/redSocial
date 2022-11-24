@@ -29,8 +29,8 @@ public class UserDao extends User implements Dao {
     public UserDao(int id, String name,String password,byte[] avatar){
         super(id,name,password,avatar);
     }
-    public UserDao(String name,String password){
-        super(name,password);
+    public UserDao(String name,String password,byte[] avatar){
+        super(name,password,avatar);
     }
     public UserDao(){
         super();
@@ -42,12 +42,16 @@ public class UserDao extends User implements Dao {
         this.getById(id);
     }
 
+    public UserDao(String username, String password) {
+        super(username,password);
+    }
+
     @Override
     public void save() {
         con = Connect.getConnect();
         if (con != null){
             try {
-                PreparedStatement st = st = con.prepareStatement(INSERT);
+                PreparedStatement st = con.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
                 st.setString(1,this.name);
                 st.setString(2,this.password);
                 try {

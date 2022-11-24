@@ -22,10 +22,16 @@ public class User {
         this.name = name;
     }
 
+    public User(String name, String password,byte[] avatar) {
+        this.name = name;
+        this.password = password;
+        this.avatar = avatar;
+    }
     public User(String name, String password) {
         this.name = name;
         this.password = password;
     }
+
 
     public User(int id, String name, byte[] avatar) {
         this.id = id;
