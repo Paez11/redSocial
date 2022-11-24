@@ -86,6 +86,9 @@ public class PostC implements Initializable {
     public void deletePost(){
         if (Data.principalUser.getId()==p.getUserName().getId()){
             p.delete();
+            Windows.mostrarAlerta("Eliminar","Eliminar","post eliminado");
+            App.loadScene(new Stage(), "Home", "RedSocial", false, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
         }else {
             Windows.mostrarAlerta("ERROR","ERROR","No puedes borrar este post");
         }
@@ -95,6 +98,7 @@ public class PostC implements Initializable {
         if (Data.principalUser.getId()==p.getUserName().getId()){
             Data.paux = p;
             App.loadScene(new Stage(), "UpdatePost", "RedSocial", true, false);
+            App.closeScene((Stage) anchorPane.getScene().getWindow());
         }else {
             Windows.mostrarAlerta("ERROR","ERROR","No puedes editar este post");
         }

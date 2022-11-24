@@ -109,13 +109,13 @@ public class UserDao extends User implements Dao {
                     //imageBlob = new SerialBlob(this.avatar);
                     //imageBlob.setBytes(1,this.avatar);
                     //this.avatar = imageBlob.getBytes(1,(int)imageBlob.length());
-                    //st.setBinaryStream(3,in,(int)imageBlob.length());
-                    st.setInt(3,(int)imageBlob.length());
+                    st.setBinaryStream(3,in,(int)imageBlob.length());
+                    //st.setInt(3,(int)imageBlob.length());
                     //st.setBlob(3, imageBlob);
                 //} catch (SQLException e) {
                     //Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    Log.severe("imagen: "+e.getMessage());
                 }
                 st.executeUpdate();
                 st.close();
