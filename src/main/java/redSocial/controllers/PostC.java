@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +37,7 @@ public class PostC implements Initializable {
     private Label editLabel;
 
     @FXML
-    private ToggleButton likes;
+    private Button likes;
 
     @FXML
     private Button comments;
@@ -64,6 +63,15 @@ public class PostC implements Initializable {
         username.setText(aux2.getName());
         profileImage.setImage(new Image(new ByteArrayInputStream(aux2.getAvatar())));
         content.setText(p.getText());
+        Data.p=p;
+        Data.p.setLikes(Data.p.getAllLikes(Data.p));
+        if (Data.p.getLikes()!=null){
+            if (Data.p.getLikes().contains(Data.principalUser)){
+                likes.setText("no me gusta");
+            }else{
+                likes.setText("me gusta");
+            }
+        }
 
         if (p.getDateUpdate()!=null){
             String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateUpdate());
@@ -121,5 +129,20 @@ public class PostC implements Initializable {
         }
     }
 
-
+    public void likePost(){
+        Data.paux= this.p;
+        if (likes.getText().equals("me gusta")){
+            if (!Data.paux.getAllLikes(Data.paux).contains(Data.principalUser)){
+                Data.paux.getLikes().add(Data.principalUser);
+                Data.paux.saveLike(Data.principalUser,Data.paux);
+                likes.setText("no me gusta");
+            }
+        }else if (likes.getText().equals("no me gusta")){
+            if (Data.paux.getAllLikes(Data.paux).contains(Data.principalUser)){
+                    Data.paux.deleteLike(Data.principalUser);
+                    Data.paux.getLikes().remove(Data.principalUser);
+                    likes.setText("me gusta");
+            }
+        }
+    }
 }

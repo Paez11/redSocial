@@ -1,6 +1,7 @@
 package redSocial.model;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -15,19 +16,23 @@ public class Post {
     protected Set<User> likes;
 
     public Post() {
+        this.likes= new HashSet<>();
     }
 
     public Post(int id) {
         this.id = id;
+        this.likes= new HashSet<>();
     }
 
     public Post(User userName, int id) {
         this.userName = userName;
         this.id = id;
+        this.likes= new HashSet<>();
     }
 
     public Post(User userName) {
         this.userName = userName;
+        this.likes= new HashSet<>();
     }
 
     public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text) {
@@ -36,6 +41,7 @@ public class Post {
         this.dateCreate = dateCreate;
         this.dateUpdate = dateUpdate;
         this.text = text;
+        this.likes= new HashSet<>();
     }
 
     public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text, List<Comment> comments, Set<User> likes) {

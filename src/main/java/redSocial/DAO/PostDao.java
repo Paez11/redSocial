@@ -10,6 +10,7 @@ import redSocial.utils.Log;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,9 @@ public class PostDao extends Post implements Dao {
     private final static String SELECTALL = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post ORDER BY fecha_creacion DESC";
     private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=? ORDER by fecha_modificacion DESC";
     private final static String SELECTCOMMENTS = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=?";
+    private final static String INSERTLIKE = "INSERT INTO likes (id_user, id_post, id) VALUES (?,?,NULL)";
+    private final static String DELETELIKE = "DELETE FROM likes WHERE id_user=?";
+    private final static String SELECTALLLIKES = "SELECT id_user,id_post,id FROM likes WHERE id_post=?";
 
     public PostDao(User u, int id){
         super(u,id);
@@ -219,5 +223,62 @@ public class PostDao extends Post implements Dao {
         return likes;
     }
 
+    public void saveLike(User u, Post p) {
+        Connection con = Connect.getConnect();
+        con = Connect.getConnect();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(INSERTLIKE);
+                st.setInt(1, u.getId());
+                st.setInt(2,p.getId());
+                st.executeUpdate();
+                st.close();
+            } catch (SQLException e) {
+                Log.severe("Error al guardar el like: " + e.getMessage());
+            }
+        }
+    }
 
+    public void deleteLike(User u) {
+        Connection con = Connect.getConnect();
+        con = Connect.getConnect();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(DELETELIKE);
+                st.setInt(1,u.getId());
+                st.executeUpdate();
+                st.close();
+            } catch (SQLException e) {
+                Log.severe("Error al borrar el like: " + e.getMessage());
+            }
+        }
+    }
+    public Set<User> getAllLikes(Post p){
+        Connection con = Connect.getConnect();
+        con = Connect.getConnect();
+        Set<User> likeds = new HashSet<>();
+        if (con != null){
+            PreparedStatement st = null;
+            try {
+                st = con.prepareStatement(SELECTALLLIKES);
+                st.setInt(1,p.getId());
+                if (st.execute()){
+                    ResultSet rs = st.getResultSet();
+                    while (rs.next()){
+                        UserDao liked = new UserDao();
+                        liked.setId(rs.getInt(1));
+                        UserDao add= (UserDao) liked.getById(liked.getId());
+                        likeds.add(add);
+                    }
+                    rs.close();
+                }
+                st.close();
+            } catch (SQLException e) {
+                Log.severe("Error al obtener los likes: " + e.getMessage());
+            }
+        }
+        return likeds;
+    }
 }
