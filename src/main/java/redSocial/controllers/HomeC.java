@@ -184,8 +184,8 @@ public class HomeC implements Initializable {
             go("CreatePost",false);
         } else if (logoutBtn.equals(source)) {
             go("LogIn",true);
-            t.stop();
-            c.stop();
+            t.interrupt();
+            c.interrupt();
         } else if (searchBtn.equals(source)) {
             Windows.mostrarAlerta("Error", "SearchBar", "No implementado");
         } else if (configBtn.equals(source)) {
@@ -199,6 +199,7 @@ public class HomeC implements Initializable {
             App.closeScene((Stage) borderPane.getScene().getWindow());
         }else{
             App.loadScene(new Stage(), fxml, "redSocial", true, false);
+            App.closeScene((Stage) borderPane.getScene().getWindow());
         }
     }
 

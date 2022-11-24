@@ -24,11 +24,13 @@ import redSocial.DAO.PostDao;
 import redSocial.DAO.UserDao;
 import redSocial.model.User;
 import redSocial.utils.Log;
+import redSocial.utils.Tools;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,19 +193,16 @@ public class ProfileC implements Initializable {
     public void editPhoto(ActionEvent event){
         photoText.setDisable(true);
 
-        pstFile = new ArrayList<>();
-        pstFile.add("*.png");
-        pstFile.add("*.jpg");
-        pstFile.add("*.jpeg");
-        pstFile.add("*.gif");
+        String path = Tools.getFilePathFromFileChooser();
 
-        if (photoFileChooser()){
-            Data.principalUser.setAvatar(photoText.getText().getBytes());
+        if (path!=null){
+            Data.principalUser.setAvatar(path.getBytes());
             Data.principalUser.update();
-            Windows.mostrarInfo("editPhoto","foto","foto editada correctamente");
+            Windows.mostrarInfo("editPhoto","Foto","Fhoto editada correctamente");
         }else {
-            Windows.mostrarInfo("photoFileChooser","foto","No se ha seleccionado ninguna foto");
+            Windows.mostrarInfo("editPhoto","Foto","Foto no seleccionada");
         }
+
 
     }
 
@@ -240,30 +239,5 @@ public class ProfileC implements Initializable {
         observableUsers.addAll(followed);
     }
 
-    public boolean photoFileChooser(){
-        boolean result = false;
-        photoText.setDisable(true);
-
-        pstFile = new ArrayList<>();
-        pstFile.add("*.png");
-        pstFile.add("*.jpg");
-        pstFile.add("*.jpeg");
-
-        try{
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Photo files",pstFile));
-            File f = fc.showOpenDialog(null);
-            if (f != null){
-                Files.readAllBytes(f.toPath());
-                byte[] bytes = Files.readAllBytes(f.toPath());
-                Image image = new Image(new ByteArrayInputStream(bytes));
-                profileImage.setImage(image);
-                result = true;
-            }
-        }catch (Exception e){
-            Log.severe("No se ha podido copiar la ruta del archivo "+e.getMessage());
-        }
-        return result;
-    }
 }
 

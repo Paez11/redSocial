@@ -14,4 +14,6 @@ module es.iesfranciscodelosrios.redSocial {
     opens redSocial.controllers to javafx.fxml;
     opens redSocial.utils.Connection to java.xml.bind;
     exports redSocial.controllers;
+    exports redSocial;
+    opens redSocial to javafx.fxml;
 }

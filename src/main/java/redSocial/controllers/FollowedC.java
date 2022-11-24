@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +26,7 @@ import redSocial.model.User;
 import redSocial.utils.Log;
 import redSocial.utils.Windows;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -94,6 +96,7 @@ public class FollowedC implements Initializable {
         loadUserPosts();
 
         followed= Data.principalUser.getFollowed();
+        profileImage.setImage(new Image(new ByteArrayInputStream(Data.aux.getAvatar())));
         observableUsers= FXCollections.observableArrayList(followed);
         followedList();
         followedTable.setItems(FXCollections.observableArrayList(observableUsers));

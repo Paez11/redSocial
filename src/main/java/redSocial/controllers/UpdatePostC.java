@@ -40,6 +40,7 @@ public class UpdatePostC implements Initializable {
         }else {
             Data.paux.setText(content.getText());
             Data.paux.update();
+            App.loadScene(new Stage(), "Home", "RedSocial", false, false);
             App.closeScene((Stage) anchorPane.getScene().getWindow());
         }
     }
