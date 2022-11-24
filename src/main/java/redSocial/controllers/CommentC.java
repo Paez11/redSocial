@@ -3,18 +3,23 @@ package redSocial.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import redSocial.DAO.CommentDao;
 import redSocial.DAO.UserDao;
 import redSocial.model.Comment;
 
+import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
 
 public class CommentC {
 
     private CommentDao c;
 
+    @FXML
+    private ImageView profileImage;
     @FXML
     protected static Button profilePhotoComment;
     @FXML
@@ -34,6 +39,8 @@ public class CommentC {
         String format = new SimpleDateFormat("dd/MM/yyyy").format(comment.getDate());
         date.setText(format);
         this.c=cd;
+        Data.aux= (UserDao) this.c.getUserComment();
+        profileImage.setImage(new Image(new ByteArrayInputStream(Data.aux.getAvatar())));
     }
 
     public void switchProfile(){

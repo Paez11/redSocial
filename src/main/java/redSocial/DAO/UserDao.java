@@ -6,6 +6,9 @@ import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.List;
@@ -50,18 +53,18 @@ public class UserDao extends User implements Dao {
     public void save() {
         con = Connect.getConnect();
         Blob imageBlob = null;
-        try {
-            imageBlob = new SerialBlob(this.avatar);
-        } catch (SQLException e) {
-            Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
-        }
         if (con != null){
             PreparedStatement st = null;
             try {
                 st = con.prepareStatement(INSERT);
                 st.setString(1,this.name);
                 st.setString(2,this.password);
-                st.setBlob(3,imageBlob);
+                try {
+                    imageBlob = new SerialBlob(this.avatar);
+                    st.setBlob(3,imageBlob);
+                } catch (SQLException e) {
+                    Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
+                }
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
@@ -90,7 +93,8 @@ public class UserDao extends User implements Dao {
     public void update() {
         con = Connect.getConnect();
 
-        Blob imageBlob = null;
+        //Blob imageBlob = null;
+        File imageBlob = null;
 
         if (con != null){
             PreparedStatement st = null;
@@ -100,11 +104,19 @@ public class UserDao extends User implements Dao {
                 st.setString(1,name);
                 st.setString(2,password);
                 try {
-                    imageBlob = new SerialBlob(this.avatar);
-                } catch (SQLException e) {
-                    Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
+                    imageBlob = new File(String.valueOf(this.avatar));
+                    FileInputStream in = new FileInputStream(imageBlob);
+                    //imageBlob = new SerialBlob(this.avatar);
+                    //imageBlob.setBytes(1,this.avatar);
+                    //this.avatar = imageBlob.getBytes(1,(int)imageBlob.length());
+                    st.setBinaryStream(3,in,(int)imageBlob.length());
+                    //st.setInt(3,(int)imageBlob.length());
+                    //st.setBlob(3, imageBlob);
+                //} catch (SQLException e) {
+                    //Log.severe("Error al actualizar foto de usuario: "+e.getMessage());
+                } catch (FileNotFoundException e) {
+                    Log.severe("imagen: "+e.getMessage());
                 }
-                st.setBlob(3, imageBlob);
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
