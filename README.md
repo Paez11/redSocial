@@ -1,7 +1,7 @@
 # PTW (Post To the World)
 This proyect is a social network where you can upload post and other users can like your post, comment on it or follow you. Apart from that you can costumize your profile or search for other users in the app.
 
-#Proyect objectives
+# Proyect objectives
 - [x] Sign Up a user
 - [x] Create,edit and eliminate Post
 - [x] Comment a post
