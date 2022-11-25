@@ -12,7 +12,7 @@ This proyect is a social network where you can upload post and other users can l
 - [ ] Connect a remote bbdd
 - [x] Make a Thread in the app
 
-#XML configuration for bbdd
+# XML configuration for bbdd
 - Tag host = Indicates the url of the SQL, for example "jdbc:mysql://localhost".
 
 - Tag db = Indicates the database name on the server.
@@ -21,5 +21,5 @@ This proyect is a social network where you can upload post and other users can l
 
 - Tag password = Password of the user bbdd
 
-#Requirements
+# Requirements
 Java JDK 18
