@@ -42,10 +42,6 @@ public class UserDao extends User implements Dao {
         this.getById(id);
     }
 
-    public UserDao(String username, String password) {
-        super(username,password);
-    }
-
     @Override
     public void save() {
         con = Connect.getConnect();
@@ -54,13 +50,7 @@ public class UserDao extends User implements Dao {
                 PreparedStatement st = con.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
                 st.setString(1,this.name);
                 st.setString(2,this.password);
-                try {
-                    File imageBlob = new File(new String(this.avatar));
-                    FileInputStream in = new FileInputStream(imageBlob);
-                    st.setBinaryStream(3,in,(int)imageBlob.length());
-                } catch (FileNotFoundException e) {
-                    Log.severe("imagen: "+e.getMessage());
-                }
+                st.setBinaryStream(3, new ByteArrayInputStream(this.avatar), this.avatar.length);
                 st.executeUpdate();
                 st.close();
             } catch (SQLException e) {
@@ -99,7 +89,7 @@ public class UserDao extends User implements Dao {
                     FileInputStream in = new FileInputStream(imageBlob);
                     st.setBinaryStream(3,in,(int)imageBlob.length());
                 } catch (FileNotFoundException e) {
-                    Log.severe("imagen: "+e.getMessage());
+                    st.setBinaryStream(3, new ByteArrayInputStream(this.avatar), this.avatar.length);
                 }
                 st.executeUpdate();
                 st.close();

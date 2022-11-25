@@ -28,17 +28,6 @@ public class CommentDao extends Comment implements Dao {
     public CommentDao(int id, User userComment, String textComment, Post post, Date date) {
         super(id,userComment,textComment,post,date);
     }
-    public CommentDao(User userComment, Post post) {
-        super(userComment,post);
-    }
-
-    public CommentDao(int id) {
-        super(id);
-    }
-
-    public CommentDao(int id, User userComment,Post post) {
-        super(id, userComment, post);
-    }
 
     public CommentDao() {
         super();

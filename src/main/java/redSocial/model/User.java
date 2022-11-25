@@ -27,11 +27,6 @@ public class User {
         this.password = password;
         this.avatar = avatar;
     }
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
 
     public User(int id, String name, byte[] avatar) {
         this.id = id;
