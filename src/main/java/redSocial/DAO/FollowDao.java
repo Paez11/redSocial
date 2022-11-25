@@ -27,6 +27,9 @@ public class FollowDao extends Follow {
         super();
     }
 
+    /**
+     * Inserta un follow a traves del id del followed y del follower
+     */
     public void save() {
         con = Connect.getConnect();
         if (con != null){
@@ -43,6 +46,9 @@ public class FollowDao extends Follow {
         }
     }
 
+    /**
+     * Elimina un follow a traves de su id 
+     */
     public void delete() {
         con = Connect.getConnect();
         if (con != null){
@@ -58,6 +64,11 @@ public class FollowDao extends Follow {
         }
     }
 
+    /**
+     * Elimina un follow a traves del id del follower y del followed
+     * @param user follower
+     * @param followed 
+     */
     public void deletebyusers(User user, User followed) {
         con = Connect.getConnect();
         if (con != null){
@@ -74,6 +85,11 @@ public class FollowDao extends Follow {
         }
     }
 
+    /**
+     * Devuelve todos los usuarios que sigue un usuario
+     * @param user follower
+     * @return lista de todos los usuarios que sigue el usuario
+     */
     public List<User> getByName(User user){
         con = Connect.getConnect();
         List<User> followeds = new ArrayList<>();

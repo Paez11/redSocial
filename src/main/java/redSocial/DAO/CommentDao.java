@@ -33,6 +33,9 @@ public class CommentDao extends Comment implements Dao {
         super();
     }
 
+    /**
+     * Inserta un comment con el id del usuario,texto,id del post y fecha en que se hizo
+     */
     @Override
     public void save() {
         //INSERT
@@ -58,6 +61,9 @@ public class CommentDao extends Comment implements Dao {
         }
     }
 
+    /**
+     * Borra un comment por su id
+     */
     @Override
     public void delete() {
         con = Connect.getConnect();
@@ -75,7 +81,9 @@ public class CommentDao extends Comment implements Dao {
             }
         }
 }
-
+    /**
+     * Actualiza los datos de un comment
+     */
     @Override
     public void update() {
         con = Connect.getConnect();
@@ -94,6 +102,11 @@ public class CommentDao extends Comment implements Dao {
         }
     }
 
+    /**
+     * Devuelve un comment por si id
+     * @param id del comment
+     * @return Comment o null si no hay un comment con ese id
+     */
     public Comment getById(int id) {
         CommentDao comment = new CommentDao(id, UserComment, textComment, post, date);
         UserDao aux = new UserDao();
@@ -123,6 +136,12 @@ public class CommentDao extends Comment implements Dao {
         return comment;
     }
 
+    /**
+     * Devuelve todos los comentarios de un usuario en un post 
+     * @param userByS usuario 
+     * @param postByS post en que ha escrito los comentarios
+     * @return lista de comentarios
+     */
     public List<Comment> getAllByUser(User userByS, Post postByS){
         List<Comment> result = new ArrayList<Comment>();
         UserDao user = null;
@@ -154,6 +173,11 @@ public class CommentDao extends Comment implements Dao {
         return result;
     }
 
+    /**
+     * Devuelbe todos los comentarios de un post
+     * @param postByS post del que se quieren obtener los comentarios
+     * @return lista con todos los comentarios del post
+     */
     public static List<CommentDao> getAllByPost(Post postByS){
         List<CommentDao> result = new ArrayList<CommentDao>();
         UserDao user = null;

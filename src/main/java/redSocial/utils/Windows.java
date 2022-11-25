@@ -6,6 +6,13 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class Windows {
+	
+	/**
+	 * muestra una alerta de peligro
+	 * @param title titulo de la alerta
+	 * @param header encabezado de la alerta
+	 * @param description descripción de la alerta
+	 */
     public static void mostrarAlerta(String title, String header, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -14,6 +21,12 @@ public class Windows {
         alert.showAndWait();
     }
 
+    /**
+	 * muestra una alerta de información
+	 * @param title titulo de la alerta
+	 * @param header encabezado de la alerta
+	 * @param description descripción de la alerta
+	 */
     public static void mostrarInfo(String title, String header, String description) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -22,6 +35,10 @@ public class Windows {
         alert.showAndWait();
     }
 
+    /**
+     * muestra una alerta para confirmar cerrar el programa
+     * @param stage ventana que se cerrara
+     */
     public static void closeRequest(Stage stage){
         stage.setOnCloseRequest(windowEvent -> {
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);

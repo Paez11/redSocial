@@ -9,6 +9,12 @@ import java.security.MessageDigest;
 
 public class Valid {
 
+	/**
+	 * Devuelve si las dos contraseñas coinciden 
+	 * @param p1 contraseña 1
+	 * @param p2 contraseña 2
+	 * @return true si las contraseñas coinciden 
+	 */
     private static boolean passwordMatched(PasswordField p1, PasswordField p2){
         boolean result=false;
 
@@ -18,6 +24,14 @@ public class Valid {
         return result;
     }
 
+    /**
+     * Válida que la primera contraseña cumpla los caracteres y que coincida con la segunda contraseña
+     * @param p1 contraseña 1
+     * @param p2 contraseña 2
+     * @param lb muestra el error
+     * @param error motivo de porque no es valida la contraseña
+     * @return true si cumple los caracteres y coincide con la segunda contraseña
+     */
     public static boolean passwordMatched(PasswordField p1, PasswordField p2,Label lb, String error){
         boolean result=true;
         String pat="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
@@ -34,6 +48,11 @@ public class Valid {
         return result;
     }
 
+    /**
+     * Valida que la contraseña cumpla los caracteres
+     * @param p1 contraseña
+     * @return true si es valida
+     */
     public static boolean passwordMatched(PasswordField p1){
         boolean result=false;
         String pat="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
@@ -43,7 +62,12 @@ public class Valid {
         }
         return result;
     }
-
+    
+    /**
+     * Valida que el email cumpla con los caracteres
+     * @param e email
+     * @return true si es valido 
+     */
     private static boolean Email(TextField e){
         boolean result=false;
 
@@ -54,6 +78,13 @@ public class Valid {
         return result;
     }
 
+    /**
+     * Valida que el email cumpla con los caracteres
+     * @param e email
+     * @param lb muestra el error
+     * @param error motivo por cual el email no es valido
+     * @return true si es valido
+     */
     public static boolean Email(TextField e, Label lb, String error){
         boolean result=true;
 

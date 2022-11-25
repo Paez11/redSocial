@@ -42,6 +42,9 @@ public class UserDao extends User implements Dao {
         this.getById(id);
     }
 
+    /**
+     * Inserta un usuario con los datos de su nickname,contraseña y avatar
+     */
     @Override
     public void save() {
         con = Connect.getConnect();
@@ -59,6 +62,9 @@ public class UserDao extends User implements Dao {
         }
     }
 
+    /**
+     * Elimina un usuario por su id
+     */
     @Override
     public void delete() {
         con = Connect.getConnect();
@@ -75,6 +81,9 @@ public class UserDao extends User implements Dao {
         }
     }
 
+    /**
+     * actualiza los datos de un usuario
+     */
     @Override
     public void update() {
         con = Connect.getConnect();
@@ -99,6 +108,11 @@ public class UserDao extends User implements Dao {
         }
     }
 
+    /**
+     * Devuelve un usuario por su id
+     * @param id del usuario
+     * @return usuario o null si no hay un usuario con ese id
+     */
     public User getById(int id){
         UserDao user = new UserDao(id,name,password,avatar);
         if (id!=-1){
@@ -129,6 +143,11 @@ public class UserDao extends User implements Dao {
         return user;
     }
 
+    /**
+     * Devuelve un usuario por su nombre
+     * @param name del usuario 
+     * @return usuario o null si no hay un usuario con ese nombre
+     */
     public User getByName(String name){
         UserDao user = new UserDao(id,name,password,avatar);
         con = Connect.getConnect();
@@ -162,6 +181,10 @@ public class UserDao extends User implements Dao {
         return user;
     }
 
+    /**
+     * Devuelve todos lo usuarios
+     * @return lista de usuarios guardados
+     */
     private List<User> getAllUsers(){
         List<User> users = null;
         con = Connect.getConnect();

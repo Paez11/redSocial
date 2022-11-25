@@ -45,6 +45,9 @@ public class CommentsC  implements Initializable {
         loadComments();
     }
 
+    /**
+     * Mostrar comentarios en el commentGrid
+     */
     public void loadComments(){
         comments= new ArrayList<>(comments());
         int columns=0;
@@ -70,6 +73,9 @@ public class CommentsC  implements Initializable {
         }
     }
 
+    /**
+     * Guardar comentario
+     */
     @FXML
     private void publishComment(){
         CommentDao cd = new CommentDao();
@@ -83,12 +89,19 @@ public class CommentsC  implements Initializable {
         }
     }
 
+    /**
+     * Obtener todos los comentarios del post
+     * @return
+     */
     private List<CommentDao> comments(){
         List<CommentDao> ls = CommentDao.getAllByPost(Data.p);
 
         return ls;
     }
 
+    /**
+     * Refrescar comentarios
+     */
     public void refreshComments(){
         commentGrid.getChildren().clear();
         loadComments();

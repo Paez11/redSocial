@@ -43,6 +43,9 @@ public class PostDao extends Post implements Dao {
         this.getById(id);
     }
 
+    /**
+     * Inserta un post con el id del usuario, fecha y texto del post
+     */
     @Override
     public void save() {
         //INSERT
@@ -67,6 +70,9 @@ public class PostDao extends Post implements Dao {
         }
 }
 
+    /**
+     * Elimina un post por su id
+     */
     @Override
     public void delete() {
         //UPDATE
@@ -86,7 +92,10 @@ public class PostDao extends Post implements Dao {
 
         }
     }
-
+    
+    /**
+     * actualiza los datos del post
+     */
     @Override
     public void update() {
         if(this.getId()!=-1) {
@@ -109,6 +118,10 @@ public class PostDao extends Post implements Dao {
         }
     }
 
+    /**
+     * Devuelbe todos los posts ordenados por fecha
+     * @return lista de posts 
+     */
     public static List<PostDao> getAll(){
         List<PostDao> result = new ArrayList();
         Connection cn = Connect.getConnect();
@@ -137,6 +150,11 @@ public class PostDao extends Post implements Dao {
         return result;
     }
 
+    /**
+     * Devuelve un post por su id
+     * @param id del post a devolver
+     * @return post si hay un post con ese id
+     */
     public Post getById(int id) {
         Connection cn = Connect.getConnect();
         UserDao user = new UserDao();
@@ -166,6 +184,9 @@ public class PostDao extends Post implements Dao {
         return post;
     }
 
+    /**
+     *Devuelve una lista de todos los posts de un usuario
+     */
     public List<Comment> getComments(){
         List<Comment> comments = new ArrayList();
         Connection cn = Connect.getConnect();
@@ -189,6 +210,11 @@ public class PostDao extends Post implements Dao {
         return comments;
     }
 
+    /**
+     * Devuelve los posts de un usuario ordenados por fecha
+     * @param id del usuario
+     * @return lista de posts del usuario 
+     */
     public static List<PostDao> getAllByUser(int id){
         UserDao user = new UserDao();
         Connection cn = Connect.getConnect();
@@ -215,6 +241,11 @@ public class PostDao extends Post implements Dao {
         return posts;
     }
 
+    /**
+     * Insertar like 
+     * @param u usuario que le da like
+     * @param p post al que se le ha dado like
+     */
     public void saveLike(User u, Post p) {
         Connection con = Connect.getConnect();
         con = Connect.getConnect();
@@ -232,6 +263,10 @@ public class PostDao extends Post implements Dao {
         }
     }
 
+    /**
+     * Elimina los likes de un usuario
+     * @param u
+     */
     public void deleteLike(User u) {
         Connection con = Connect.getConnect();
         con = Connect.getConnect();
@@ -248,6 +283,11 @@ public class PostDao extends Post implements Dao {
         }
     }
 
+    /**
+     * Devuelbe todos los likes de un post
+     * @param p post
+     * @return lista de usuarios que le han dado a like
+     */
     public Set<User> getAllLikes(Post p){
         Connection con = Connect.getConnect();
         con = Connect.getConnect();

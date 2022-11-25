@@ -29,7 +29,11 @@ public class CreatePostC implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
+    
+    /**
+     * Crear Post
+     * @param actionEvent
+     */
     public void submit(ActionEvent actionEvent) {
         Data.p.setUserName(Data.principalUser);
         Data.p.setText(content.getText());
@@ -38,6 +42,10 @@ public class CreatePostC implements Initializable {
         App.closeScene((Stage) anchorPane.getScene().getWindow());
     }
 
+    /**
+     * Cancelar subir post
+     * @param actionEvent
+     */
     public void cancel(ActionEvent actionEvent) {
         App.loadScene(new Stage(), "Home", "RedSocial", false, false);
         App.closeScene((Stage) anchorPane.getScene().getWindow());

@@ -31,6 +31,10 @@ public class CommentC {
     @FXML
     private Label date;
 
+    /**
+     * Pasar la información del comentario a la vista
+     * @param comment comentario con los datos que se van a mostrar
+     */
     public void setData(Comment comment){
         CommentDao cd= (CommentDao) new CommentDao().getById(comment.getId());
         UserDao ud= new UserDao(cd.getUserComment());
@@ -43,6 +47,9 @@ public class CommentC {
         profileImage.setImage(new Image(new ByteArrayInputStream(Data.aux.getAvatar())));
     }
 
+    /**
+     * Cargar la ventana de profile
+     */
     public void switchProfile(){
         Data.aux= (UserDao) this.c.getUserComment();
         Data.caux = this.c;
