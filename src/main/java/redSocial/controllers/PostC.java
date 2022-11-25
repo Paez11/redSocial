@@ -37,6 +37,9 @@ public class PostC implements Initializable {
     private Label editLabel;
 
     @FXML
+    private Label likesLabel;
+
+    @FXML
     private Button likes;
 
     @FXML
@@ -72,6 +75,7 @@ public class PostC implements Initializable {
                 likes.setText("me gusta");
             }
         }
+        likesLabel.setText(String.valueOf(Data.p.getLikes().size()));
 
         if (p.getDateUpdate()!=null){
             String format = new SimpleDateFormat("dd/MM/yyyy").format(p.getDateUpdate());

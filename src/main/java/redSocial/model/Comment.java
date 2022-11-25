@@ -20,27 +20,7 @@ public class Comment {
         this.date = date;
     }
 
-    public Comment(User userComment, Post post){
-        this.UserComment = userComment;
-        this.post = post;
-    }
-
     public Comment() {
-    }
-
-    public Comment(int id) {
-        this.id = id;
-    }
-
-    public Comment(int id, Post post) {
-        this.id = id;
-        this.post = post;
-    }
-
-    public Comment(int id, User userComment, Post post) {
-        this.id = id;
-        UserComment = userComment;
-        this.post = post;
     }
 
     public int getId() {

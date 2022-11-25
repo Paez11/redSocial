@@ -21,7 +21,7 @@ public class PostDao extends Post implements Dao {
     private final static String DELETE = "DELETE FROM post WHERE id=?";
     private final static String SELECTBYID = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id=?";
     private final static String SELECTALL = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post ORDER BY fecha_creacion DESC";
-    private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=? ORDER by fecha_modificacion DESC";
+    private final static String SELECTBYUSER = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=? ORDER BY fecha_modificacion DESC";
     private final static String SELECTCOMMENTS = "SELECT id,id_user,fecha_creacion,fecha_modificacion,texto FROM post WHERE id_user=?";
     private final static String INSERTLIKE = "INSERT INTO likes (id_user, id_post, id) VALUES (?,?,NULL)";
     private final static String DELETELIKE = "DELETE FROM likes WHERE id_user=?";
@@ -42,7 +42,6 @@ public class PostDao extends Post implements Dao {
     public PostDao(int id){
         this.getById(id);
     }
-
 
     @Override
     public void save() {
@@ -156,7 +155,6 @@ public class PostDao extends Post implements Dao {
                         post.dateCreate = rs.getDate("fecha_creacion");
                         post.dateUpdate = rs.getDate("fecha_modificacion");
                         post.text = rs.getString("texto");
-                        //post.comments = (List<Comment>) comments.getById(rs.getInt(1));
                     }
                 }
                 ps.close();
@@ -217,12 +215,6 @@ public class PostDao extends Post implements Dao {
         return posts;
     }
 
-    public List<User> getWhoLikes(){
-        List<User> likes = new ArrayList<>();
-
-        return likes;
-    }
-
     public void saveLike(User u, Post p) {
         Connection con = Connect.getConnect();
         con = Connect.getConnect();
@@ -255,6 +247,7 @@ public class PostDao extends Post implements Dao {
             }
         }
     }
+
     public Set<User> getAllLikes(Post p){
         Connection con = Connect.getConnect();
         con = Connect.getConnect();
