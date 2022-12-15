@@ -1,20 +1,18 @@
-package redSocial.model;
-
-import javafx.geometry.Pos;
+package redSocial.model.DataObject;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class Comment {
     protected int id;
-    protected User UserComment;
+    protected User user;
     protected String textComment;
     protected Post post;
     protected Date date;
 
-    public Comment(int id, User userComment, String textComment, Post post, Date date) {
+    public Comment(int id, User user, String textComment, Post post, Date date) {
         this.id = id;
-        this.UserComment = userComment;
+        this.user = user;
         this.textComment = textComment;
         this.post = post;
         this.date = date;
@@ -39,12 +37,12 @@ public class Comment {
         this.textComment = textComment;
     }
 
-    public User getUserComment() {
-        return UserComment;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserComment(User userComment) {
-        UserComment = userComment;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Post getPost() {
@@ -64,15 +62,26 @@ public class Comment {
     }
 
     @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", UserComment=" + user +
+                ", textComment='" + textComment + '\'' +
+                ", post=" + post +
+                ", date=" + date +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return id == comment.id && Objects.equals(UserComment, comment.UserComment) && Objects.equals(post, comment.post);
+        return id == comment.id && Objects.equals(user, comment.user) && Objects.equals(post, comment.post);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, UserComment, post);
+        return Objects.hash(id, user, post);
     }
 }

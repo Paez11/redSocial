@@ -1,9 +1,9 @@
-package redSocial.DAO;
+package redSocial.model.DAO;
 
 import redSocial.interfaces.Dao;
-import redSocial.model.Comment;
-import redSocial.model.Post;
-import redSocial.model.User;
+import redSocial.model.DataObject.Comment;
+import redSocial.model.DataObject.Post;
+import redSocial.model.DataObject.User;
 import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
@@ -25,8 +25,8 @@ public class CommentDao extends Comment implements Dao {
     private final static String SELECTBYPOST = "SELECT id,id_user,texto,id_post,fecha FROM comments where id_post=? ORDER BY fecha DESC";
 
 
-    public CommentDao(int id, User userComment, String textComment, Post post, Date date) {
-        super(id,userComment,textComment,post,date);
+    public CommentDao(int id, User user, String textComment, Post post, Date date) {
+        super(id,user,textComment,post,date);
     }
 
     public CommentDao() {
@@ -41,7 +41,7 @@ public class CommentDao extends Comment implements Dao {
             PreparedStatement ps;
             try {
                 ps = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, this.getUserComment().getId());
+                ps.setInt(1, this.getUser().getId());
                 ps.setString(2, this.getTextComment());
                 ps.setInt(3, this.getPost().getId());
                 ps.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
@@ -95,7 +95,7 @@ public class CommentDao extends Comment implements Dao {
     }
 
     public Comment getById(int id) {
-        CommentDao comment = new CommentDao(id, UserComment, textComment, post, date);
+        CommentDao comment = new CommentDao(id, user, textComment, post, date);
         UserDao aux = new UserDao();
         PostDao aux2 = new PostDao();
         con = Connect.getConnect();
@@ -108,7 +108,7 @@ public class CommentDao extends Comment implements Dao {
                 if(rs.next()) {
                     aux = (UserDao) aux.getById(rs.getInt("id_user"));
                     id = rs.getInt(1);
-                    comment.UserComment = aux;
+                    comment.user = aux;
                     comment.textComment = rs.getString("texto");
                     aux2 = (PostDao) aux2.getById(rs.getInt("id_post"));
                     comment.post = aux2;

@@ -1,11 +1,9 @@
 package redSocial.controllers;
 
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import redSocial.DAO.UserDao;
+import redSocial.model.DAO.UserDao;
 import redSocial.Start;
 import redSocial.utils.Log;
-import redSocial.utils.Tools;
 import redSocial.utils.Valid;
 import redSocial.utils.Windows;
 import javafx.application.Platform;
@@ -19,9 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SignUpC implements Initializable {
