@@ -1,4 +1,4 @@
-package redSocial.model;
+package redSocial.model.DataObject;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Post {
-    protected User userName;
+    protected User user;
     protected int id;
     protected Date dateCreate;
     protected Date dateUpdate;
@@ -24,19 +24,19 @@ public class Post {
         this.likes= new HashSet<>();
     }
 
-    public Post(User userName, int id) {
-        this.userName = userName;
+    public Post(User user, int id) {
+        this.user = user;
         this.id = id;
         this.likes= new HashSet<>();
     }
 
-    public Post(User userName) {
-        this.userName = userName;
+    public Post(User user) {
+        this.user = user;
         this.likes= new HashSet<>();
     }
 
-    public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text) {
-        this.userName = userName;
+    public Post(User user, int id, Date dateCreate, Date dateUpdate, String text) {
+        this.user = user;
         this.id = id;
         this.dateCreate = dateCreate;
         this.dateUpdate = dateUpdate;
@@ -44,8 +44,8 @@ public class Post {
         this.likes= new HashSet<>();
     }
 
-    public Post(User userName, int id, Date dateCreate, Date dateUpdate, String text, List<Comment> comments, Set<User> likes) {
-        this.userName = userName;
+    public Post(User user, int id, Date dateCreate, Date dateUpdate, String text, List<Comment> comments, Set<User> likes) {
+        this.user = user;
         this.id = id;
         this.dateCreate = dateCreate;
         this.dateUpdate = dateUpdate;
@@ -54,12 +54,12 @@ public class Post {
         this.likes = likes;
     }
 
-    public User getUserName() {
-        return userName;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserName(User userName) {
-        this.userName = userName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -108,6 +108,19 @@ public class Post {
 
     public void setLikes(Set<User> likes) {
         this.likes = likes;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userName=" + user +
+                ", id=" + id +
+                ", dateCreate=" + dateCreate +
+                ", dateUpdate=" + dateUpdate +
+                ", text='" + text + '\'' +
+                ", comments=" + comments +
+                ", likes=" + likes +
+                '}';
     }
 
     @Override

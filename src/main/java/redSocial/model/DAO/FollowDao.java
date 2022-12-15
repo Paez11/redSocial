@@ -1,7 +1,7 @@
-package redSocial.DAO;
+package redSocial.model.DAO;
 
-import redSocial.model.Follow;
-import redSocial.model.User;
+import redSocial.model.DataObject.Follow;
+import redSocial.model.DataObject.User;
 import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 

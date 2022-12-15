@@ -8,8 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import redSocial.DAO.PostDao;
-import redSocial.DAO.UserDao;
+import redSocial.model.DAO.PostDao;
+import redSocial.model.DAO.UserDao;
 import redSocial.utils.Windows;
 
 import java.io.ByteArrayInputStream;
@@ -62,7 +62,7 @@ public class PostC implements Initializable {
 
     public void setDataPost(PostDao p){
         UserDao aux2 = new UserDao();
-        aux2 = (UserDao) aux2.getById(p.getUserName().getId());
+        aux2 = (UserDao) aux2.getById(p.getUser().getId());
         username.setText(aux2.getName());
         profileImage.setImage(new Image(new ByteArrayInputStream(aux2.getAvatar())));
         content.setText(p.getText());
@@ -86,7 +86,7 @@ public class PostC implements Initializable {
             date.setText(format);
         }
         this.p = p;
-        if (Data.principalUser.getId()==p.getUserName().getId()) {
+        if (Data.principalUser.getId()==p.getUser().getId()) {
             delete.setVisible(true);
             update.setVisible(true);
         }else{
@@ -96,7 +96,7 @@ public class PostC implements Initializable {
     }
 
     public void deletePost(){
-        if (Data.principalUser.getId()==p.getUserName().getId()){
+        if (Data.principalUser.getId()==p.getUser().getId()){
             p.delete();
             Windows.mostrarAlerta("Eliminar","Eliminar","post eliminado");
             App.loadScene(new Stage(), "Home", "RedSocial", false, false);
@@ -107,7 +107,7 @@ public class PostC implements Initializable {
     }
 
     public void updatePost(){
-        if (Data.principalUser.getId()==p.getUserName().getId()){
+        if (Data.principalUser.getId()==p.getUser().getId()){
             Data.paux = p;
             App.loadScene(new Stage(), "UpdatePost", "RedSocial", true, false);
             App.closeScene((Stage) anchorPane.getScene().getWindow());
@@ -122,7 +122,7 @@ public class PostC implements Initializable {
     }
 
     public void switchProfile(){
-        Data.aux= (UserDao) this.p.getUserName();
+        Data.aux= (UserDao) this.p.getUser();
         Data.p = this.p;
         if (Data.principalUser.getId()==Data.aux.getId()) {
             App.loadScene(new Stage(), "Profile", "RedSocial", false, false);

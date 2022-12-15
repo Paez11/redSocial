@@ -1,11 +1,10 @@
-package redSocial.DAO;
+package redSocial.model.DAO;
 
 import redSocial.interfaces.Dao;
-import redSocial.model.User;
+import redSocial.model.DataObject.User;
 import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.*;
 import java.util.List;

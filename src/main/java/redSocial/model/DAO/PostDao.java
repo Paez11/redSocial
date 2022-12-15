@@ -1,9 +1,9 @@
-package redSocial.DAO;
+package redSocial.model.DAO;
 
 import redSocial.interfaces.Dao;
-import redSocial.model.Comment;
-import redSocial.model.Post;
-import redSocial.model.User;
+import redSocial.model.DataObject.Comment;
+import redSocial.model.DataObject.Post;
+import redSocial.model.DataObject.User;
 import redSocial.utils.Connection.Connect;
 import redSocial.utils.Log;
 
@@ -51,7 +51,7 @@ public class PostDao extends Post implements Dao {
             PreparedStatement ps;
             try {
                 ps = cn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, this.getUserName().getId());
+                ps.setInt(1, this.getUser().getId());
                 ps.setDate(2, Date.valueOf(LocalDate.now()));
                 ps.setString(3, this.getText());
                 ps.executeUpdate();  //devuelve 1 si ha salido bien
@@ -140,7 +140,7 @@ public class PostDao extends Post implements Dao {
     public Post getById(int id) {
         Connection cn = Connect.getConnect();
         UserDao user = new UserDao();
-        PostDao post = new PostDao(userName, id, dateCreate, dateUpdate, text, comments, likes);
+        PostDao post = new PostDao(this.user, id, dateCreate, dateUpdate, text, comments, likes);
         CommentDao comments = null;
         if(cn != null) {
             PreparedStatement ps;
@@ -151,7 +151,7 @@ public class PostDao extends Post implements Dao {
                     ResultSet rs = ps.getResultSet();
                     if(rs.next()) {
                         id=rs.getInt(1);
-                        userName = user.getById(rs.getInt("id_user"));
+                        this.user = user.getById(rs.getInt("id_user"));
                         post.dateCreate = rs.getDate("fecha_creacion");
                         post.dateUpdate = rs.getDate("fecha_modificacion");
                         post.text = rs.getString("texto");
@@ -204,7 +204,7 @@ public class PostDao extends Post implements Dao {
                     p.setId(rs.getInt("id"));
                     p.setText(rs.getString("texto"));
                     p.setDateCreate(rs.getDate("fecha_creacion"));
-                    p.setUserName(user.getById(rs.getInt("id_user")));
+                    p.setUser(user.getById(rs.getInt("id_user")));
                     posts.add(p);
                 }
                 rs.close();
